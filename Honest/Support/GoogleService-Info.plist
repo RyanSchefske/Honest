@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>867734289602-1k74s6vh3ba7egriabkb05813qshltrq.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.867734289602-1k74s6vh3ba7egriabkb05813qshltrq</string>
+	<key>API_KEY</key>
+	<string>AIzaSyAOz05HYpWKS0RpOchI39gp928zYGDh29w</string>
+	<key>GCM_SENDER_ID</key>
+	<string>867734289602</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.ryanschefske.Advice</string>
+	<key>PROJECT_ID</key>
+	<string>advice-9ce51</string>
+	<key>STORAGE_BUCKET</key>
+	<string>advice-9ce51.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:867734289602:ios:6015cc5dfb8dfcbc</string>
+	<key>DATABASE_URL</key>
+	<string>https://advice-9ce51.firebaseio.com</string>
+	<key>ADMOB_APP_ID</key>
+	<string>ca-app-pub-2392719817363402~1322607847</string>
+</dict>
+</plist>
