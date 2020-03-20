@@ -12,4 +12,5 @@ enum HAError: String, Error {
     case unableToComplete = "Unable to complete your request. Please check your internet connection."
     case unableToLike = "There was an error liking this post. Please try again."
 	case alreadyInLikes = "This post has already been liked by you."
+	case unableToReport = "This is your post. You are unable to report it."
 }

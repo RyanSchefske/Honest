@@ -9,11 +9,14 @@
 import UIKit
 import FirebaseFirestore
 import FirebaseAuth
+import GoogleMobileAds
 
-class NewPostVC: HADataLoadingVC {
+class NewPostVC: HADataLoadingVC, GADInterstitialDelegate {
 	
 	let contentTextView = HATextView(frame: .zero, textContainer: nil)
 	let categoryTextField = HATextField(frame: .zero)
+	
+	var interstitial: GADInterstitial!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -22,6 +25,7 @@ class NewPostVC: HADataLoadingVC {
 		setupCustomBarButton()
 		layoutConstraints()
 		setupToolbar()
+		interstitial = createAndLoadInterstitial()
     }
     
     private func configureViewController() {
@@ -79,6 +83,10 @@ class NewPostVC: HADataLoadingVC {
 		view.endEditing(true)
         showLoadingView()
 		
+		if interstitial.isReady {
+            interstitial.present(fromRootViewController: self)
+        }
+		
 		//TODO: Animations for failed cases
 		if categoryTextField.text!.isEmpty {
             categoryTextField.layer.borderColor = UIColor.red.cgColor
@@ -97,7 +105,7 @@ class NewPostVC: HADataLoadingVC {
 					
 					switch result {
 					case .success:
-						self.navigationController?.pushViewController(HomeVC(), animated: true)
+						self.tabBarController?.selectedIndex = 0
 						
 					case .failure(let error):
 						self.presentHAAlertOnMainThread(title: "Uh-oh", message: error.rawValue, buttonText: "Okay")
@@ -105,5 +113,16 @@ class NewPostVC: HADataLoadingVC {
 				}
             }
         }
+	}
+	
+	func createAndLoadInterstitial() -> GADInterstitial {
+		let interstitial = GADInterstitial(adUnitID: "ca-app-pub-2392719817363402/3370573728")
+		interstitial.delegate = self
+		interstitial.load(GADRequest())
+		return interstitial
+	}
+	
+	func interstitialDidDismissScreen(_ ad: GADInterstitial) {
+		interstitial = createAndLoadInterstitial()
 	}
 }

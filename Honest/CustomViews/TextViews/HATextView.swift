@@ -23,7 +23,7 @@ class HATextView: UITextView {
     
     private func configure() {
 		textColor = .label
-		backgroundColor = .systemBackground
+		backgroundColor = .tertiarySystemBackground
 		font = UIFont.preferredFont(forTextStyle: .body).withSize(14)
         translatesAutoresizingMaskIntoConstraints = false
     }
@@ -31,9 +31,9 @@ class HATextView: UITextView {
 	private func customizeUI() {
 		layer.cornerRadius = 10
 		
-		layer.shadowColor = UIColor.systemGray.cgColor
-		layer.shadowOpacity = 0.5
-		layer.shadowRadius = 10
-		clipsToBounds = false
+//		layer.shadowColor = UIColor.systemGray.cgColor
+//		layer.shadowOpacity = 0.5
+//		layer.shadowRadius = 10
+//		clipsToBounds = false
 	}
 }

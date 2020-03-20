@@ -9,6 +9,7 @@
 import UIKit
 import FirebaseFirestore
 import FirebaseAuth
+import FirebaseMessaging
 
 class NetworkManager {
 	
@@ -22,6 +23,9 @@ class NetworkManager {
 		
 		let likes = PersistenceManager().fetchLikedPosts()
 		let dislikes = PersistenceManager().fetchDislikedPosts()
+		let hiddenPosts = PersistenceManager().fetchHiddenPosts()
+		let blockedUsers = PersistenceManager().fetchBlockedUsers()
+		
 		var liked = false
 		var disliked = false
         
@@ -39,6 +43,9 @@ class NetworkManager {
 					if likes.contains(postId) { liked = true } else { liked = false }
 					if dislikes.contains(postId) { disliked = true } else { disliked = false }
 					
+					if hiddenPosts.contains(postId) { continue }
+					if blockedUsers.contains(postId) { continue }
+					
 					posts.append(Post(userId: data["userId"] as! String, postId: data["questionId"] as! String, content: data["question"] as! String, category: data["category"] as! String, date: date, likes: data["likes"] as! Int, dislikes: data["dislikes"] as! Int, replies: data["replies"] as! Int, reports: data["reports"] as! Int, liked: liked, disliked: disliked))
                 }
                 posts = posts.sorted(by: { $0.date.compare($1.date) == .orderedDescending })
@@ -49,13 +56,14 @@ class NetworkManager {
 	
 	func postAdvice(content: String, category: String, completed: @escaping (Result<Bool, HAError>) -> Void) {
 		guard let user = Auth.auth().currentUser else { return }
+		let newDate = Date().addingTimeInterval(-1 * 60)
 			
 		_ = db.collection("posts").addDocument(data: [
 			"userId": user.uid,
 			"questionId": UUID().uuidString,
 			"question": content,
 			"category": category,
-			"date": Date(),
+			"date": newDate,
 			"likes": 0,
 			"dislikes": 0,
 			"replies": 0,
@@ -108,6 +116,19 @@ class NetworkManager {
 			if error != nil {
 				completed(.failure(.unableToComplete))
 			} else {
+				_ = self.db.collection("posts").whereField("questionId", isEqualTo: origPostId).getDocuments { (querySnapshot, error) in
+					if error != nil {
+						print("Error")
+					} else if querySnapshot!.documents.count != 1 {
+						print("Error finding document")
+					} else {
+						let document = querySnapshot?.documents.first
+						if var replies = document?.data()["replies"] as? Int {
+							replies += 1
+							document?.reference.updateData(["replies": replies])
+						}
+					}
+				}
 				completed(.success(true))
 			}
 		}
@@ -168,5 +189,76 @@ class NetworkManager {
                 document?.reference.updateData(["dislikes": dislikes])
             }
         }
+	}
+	
+	func updateReports(for postId: String) {
+		_ = self.db.collection("posts")
+		.whereField("questionId", isEqualTo: postId)
+		.getDocuments(completion: { (querySnapshot, error) in
+			if error != nil {
+				print("Error")
+			} else if querySnapshot!.documents.count != 1 {
+				print("Error finding document")
+			} else {
+				let document = querySnapshot!.documents.first
+				if var reports = document!.data()["reports"] as? Int {
+					reports += 1
+					if reports >= 3 {
+						document?.reference.delete(completion: { (error) in
+							if error != nil { print(error!.localizedDescription) }
+						})
+					} else {
+						document?.reference.updateData(["reports": reports])
+					}
+				}
+			}
+		})
+	}
+	
+	func deletePost(for postId: String) {
+		_ = self.db.collection("posts")
+		.whereField("questionId", isEqualTo: postId)
+		.getDocuments(completion: { (querySnapshot, error) in
+			if error != nil {
+				print("Error")
+			} else if querySnapshot!.documents.count != 1 {
+				print("Error finding document")
+			} else {
+				let document = querySnapshot!.documents.first
+				document?.reference.delete(completion: {
+					(error) in
+					if error != nil {
+						print("Error: ", error!.localizedDescription)
+					}
+				})
+			}
+		})
+	}
+	
+	func updateToken() {
+		if let token = Messaging.messaging().fcmToken {
+			self.db.collection("users").whereField("userId", isEqualTo: Auth.auth().currentUser!.uid).getDocuments(completion: { (querySnapshot, error) in
+				if error != nil {
+					print("Error: \(error!.localizedDescription)")
+				} else {
+					if querySnapshot?.documents.count != 0 {
+						let document = querySnapshot?.documents.first
+						if document?.data()["notificationToken"] as? String != token {
+							document?.reference.updateData(["notificationToken": token])
+						}
+					} else {
+						self.db.collection("users").addDocument(data: [
+							"userId": Auth.auth().currentUser!.uid,
+							"email": Auth.auth().currentUser!.email ?? "N/A",
+							"notificationToken": token
+						]) { err in
+							if let err = err {
+								print("Error adding document: \(err)")
+							}
+						}
+					}
+				}
+			})
+		}
 	}
 }

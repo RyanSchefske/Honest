@@ -8,8 +8,9 @@
 
 import UIKit
 import FirebaseAuth
+import GoogleMobileAds
 
-class HomeVC: HADataLoadingVC {
+class HomeVC: HADataLoadingVC, GADUnifiedNativeAdLoaderDelegate {
 	
 	enum Section { case main }
     
@@ -21,6 +22,17 @@ class HomeVC: HADataLoadingVC {
 	var signInNeeded = false
 	weak var replyDelegate: ReplyDelegate!
 	
+	var nativeAdView = GADUnifiedNativeAdView()
+	var adLoader = GADAdLoader()
+	
+	var ads: [GADUnifiedNativeAd] = [] {
+		didSet {
+			DispatchQueue.main.async {
+				self.collectionView.reloadData()
+			}
+		}
+	}
+	
 	var posts: [Post] = [] {
 		didSet {
 			DispatchQueue.main.async {
@@ -31,22 +43,27 @@ class HomeVC: HADataLoadingVC {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-		        
-		//try! Auth.auth().signOut()
+		
         configureViewController()
         configureCollectionView()
 		configurePullToRefresh()
 		checkSignedIn()
+		checkFirstLaunch()
+		getAds()
     }
 	
 	override func viewWillAppear(_ animated: Bool) {
 		super.viewWillAppear(animated)
 		
 		if Auth.auth().currentUser != nil {
+			NetworkManager.shared.updateToken()
+			
 			if signInNeeded {
 				getPosts(date: Date())
 				signInNeeded = false
 			}
+		} else {
+			checkSignedIn()
 		}
 	}
 	
@@ -57,6 +74,14 @@ class HomeVC: HADataLoadingVC {
 		} else {
 			getPosts(date: Date())
 		}
+	}
+	
+	private func checkFirstLaunch() {
+		let launchedBefore = UserDefaults.standard.bool(forKey: "LaunchedBefore")
+        if !launchedBefore  {
+            presentHAAlertOnMainThread(title: "Terms of Use", message: "By using this app, you agree to the terms of use found in the app settings and on the company website.", buttonText: "Agree")
+            UserDefaults.standard.set(true, forKey: "LaunchedBefore")
+        }
 	}
 
     private func configureViewController() {
@@ -69,10 +94,11 @@ class HomeVC: HADataLoadingVC {
         collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: UIHelper.createCVFlowLayout(in: self.view))
         
         view.addSubview(collectionView)
-        collectionView.backgroundColor = .systemBackground
+        collectionView.backgroundColor = .secondarySystemBackground
         collectionView.delegate = self
 		collectionView.dataSource = self
         collectionView.register(PostCell.self, forCellWithReuseIdentifier: PostCell.reuseID)
+		collectionView.register(NativeAdCell.self, forCellWithReuseIdentifier: NativeAdCell.reuseID)
     }
 	
 	func getPosts(date: Date) {
@@ -110,24 +136,71 @@ class HomeVC: HADataLoadingVC {
         getPosts(date: Date())
         self.refresher.endRefreshing()
     }
+	
+	func removeBlockedHiddenContent() {
+		let blockedUsers = PersistenceManager().fetchBlockedUsers()
+		let hiddenPosts = PersistenceManager().fetchHiddenPosts()
+		
+		posts = posts.filter { !blockedUsers.contains($0.userId) }
+		posts = posts.filter { !hiddenPosts.contains($0.postId) }
+	}
+	
+	func getAds() {
+		let options = GADMultipleAdsAdLoaderOptions()
+		options.numberOfAds = 5
+        adLoader = GADAdLoader(adUnitID: "ca-app-pub-2392719817363402/4186174365",
+            rootViewController: self,
+            adTypes: [ GADAdLoaderAdType.unifiedNative ],
+            options: [options])
+        adLoader.delegate = self
+		adLoader.load(GADRequest())
+	}
+	
+	func adLoader(_ adLoader: GADAdLoader, didReceive nativeAd: GADUnifiedNativeAd) {
+		ads.append(nativeAd)
+    }
+    
+    func adLoader(_ adLoader: GADAdLoader, didFailToReceiveAdWithError error: GADRequestError) {
+        print("Error: \(error)")
+    }
 }
 
 extension HomeVC: UICollectionViewDelegate, UICollectionViewDataSource {
 	
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-		return posts.count
+		return posts.count + ads.count
     }
 	
 	func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-		let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PostCell.reuseID, for: indexPath) as! PostCell
-		cell.set(post: posts[indexPath.item], delegate: self)
-		return cell
+		if indexPath.item % 5 == 0 && ads.count > indexPath.item / 5 {
+			let cellIndex = indexPath.item / 5
+			
+			let cell = collectionView.dequeueReusableCell(withReuseIdentifier: NativeAdCell.reuseID, for: indexPath) as! NativeAdCell
+			let ad = ads[cellIndex]
+			cell.set(ad: ad)
+			ad.rootViewController = self
+			
+			return cell
+		} else if indexPath.item % 5 == 0 || (indexPath.item * 4 / 5) > posts.count - 1 {
+			let cell = collectionView.dequeueReusableCell(withReuseIdentifier: NativeAdCell.reuseID, for: indexPath) as! NativeAdCell
+			return cell
+		} else {
+			let cellIndex = indexPath.item * 4 / 5
+			let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PostCell.reuseID, for: indexPath) as! PostCell
+			cell.set(post: posts[cellIndex], delegate: self)
+			return cell
+		}
 	}
 	
 	func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-		let selectedPost = self.posts[indexPath.item]
-		let detailVC = DetailVC(post: selectedPost)
-		navigationController?.pushViewController(detailVC, animated: true)
+		if indexPath.item % 5 == 0 && ads.count > indexPath.item / 5 {
+		} else if indexPath.item % 5 == 0 || (indexPath.item * 4 / 5) > posts.count - 1 {
+		} else {
+			let cellIndex = indexPath.item * 4 / 5
+			let selectedPost = self.posts[cellIndex]
+			let detailVC = DetailVC(post: selectedPost)
+			navigationController?.pushViewController(detailVC, animated: true)
+		}
     }
     
     func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {

@@ -26,10 +26,13 @@ enum SFSymbols {
 	static let thumbsDown = UIImage(systemName: "hand.thumbsdown")
 	static let thumbsDownFilled = UIImage(systemName: "hand.thumbsdown.fill")
 	static let report = UIImage(systemName: "exclamationmark.octagon.fill")
+	static let ellipsis = UIImage(systemName: "ellipsis")
+	
+	static let settings = UIImage(systemName: "gear")
 }
 
 enum Colors {
-    static let customBlue = UIColor(red: 60/255, green: 197/255, blue: 1, alpha: 1)
+    static let customBlue = UIColor(red: 112/255, green: 213/255, blue: 1, alpha: 1)
 	static let customGreen = UIColor(red: 0, green: 200/255, blue: 17/255, alpha: 1)
 }
 

@@ -7,12 +7,16 @@
 //
 
 import UIKit
+import GoogleMobileAds
 
-class NewReplyVC: HADataLoadingVC {
+class NewReplyVC: HADataLoadingVC, GADInterstitialDelegate {
 	
 	let categoryTextField = HATextField(frame: .zero)
 	let contentTextView = HATextView(frame: .zero, textContainer: nil)
 	var originalPostId: String!
+	var userId: String!
+	
+	var interstitial: GADInterstitial!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -21,12 +25,14 @@ class NewReplyVC: HADataLoadingVC {
 		setupCustomBarButton()
 		layoutConstraints()
 		setupToolbar()
+		interstitial = createAndLoadInterstitial()
     }
 	
-	init(origPostId: String) {
+	init(origPostId: String, userId: String) {
         super.init(nibName: nil, bundle: nil)
         
         self.originalPostId = origPostId
+		self.userId = userId
     }
     
     required init?(coder: NSCoder) {
@@ -89,6 +95,11 @@ class NewReplyVC: HADataLoadingVC {
 	@objc func postReply() {
 		view.endEditing(true)
 		showLoadingView()
+		sendReplyNotification(to: userId)
+		
+		if interstitial.isReady {
+			interstitial.present(fromRootViewController: self)
+		}
 		
 		//TODO: Animations for failed cases
 		if contentTextView.text.isEmpty {
@@ -109,5 +120,16 @@ class NewReplyVC: HADataLoadingVC {
 				}
 			}
 		}
+	}
+	
+	func createAndLoadInterstitial() -> GADInterstitial {
+		let interstitial = GADInterstitial(adUnitID: "ca-app-pub-2392719817363402/3370573728")
+		interstitial.delegate = self
+		interstitial.load(GADRequest())
+		return interstitial
+	}
+	
+	func interstitialDidDismissScreen(_ ad: GADInterstitial) {
+		interstitial = createAndLoadInterstitial()
 	}
 }

@@ -7,9 +7,11 @@
 //
 
 import UIKit
+import AudioToolbox
 
 protocol ReplyDelegate: class {
-    func didTapReply(origPostId: String)
+	func didTapReply(origPostId: String, userId: String)
+	func didTapReport(origPost: Post, sender: UIButton)
 }
 
 class HAPostButtonView: UIView {
@@ -22,6 +24,7 @@ class HAPostButtonView: UIView {
 	let replyButton = HAPostActionButton(image: SFSymbols.reply!, tintColor: .systemGray4)
 	let thumbsUpButton = HAPostActionButton(image: SFSymbols.thumbsUpFilled!, tintColor: .systemGray4)
 	let thumbsDownButton = HAPostActionButton(image: SFSymbols.thumbsDownFilled!, tintColor: .systemGray4)
+	let reportButton = HAPostActionButton(image: SFSymbols.ellipsis!, tintColor: .systemGray4)
 	
 	override init(frame: CGRect) {
 		super.init(frame: frame)
@@ -39,15 +42,18 @@ class HAPostButtonView: UIView {
 		backgroundColor = Colors.customBlue
 		layer.cornerRadius = 25
 		translatesAutoresizingMaskIntoConstraints = false
+		
+		reportButton.setTitle("", for: .normal)
 	}
 	
 	func configureStackView() {
 		stackView.axis = .horizontal
-		stackView.distribution = .fillEqually
+		stackView.distribution = .fillProportionally
 				
 		stackView.addArrangedSubview(replyButton)
 		stackView.addArrangedSubview(thumbsUpButton)
 		stackView.addArrangedSubview(thumbsDownButton)
+		stackView.addArrangedSubview(reportButton)
 		
 		addSubview(stackView)
 		stackView.pinToEdges(of: self)
@@ -57,11 +63,12 @@ class HAPostButtonView: UIView {
 		replyButton.addTarget(self, action: #selector(replyClicked), for: .touchUpInside)
 		thumbsUpButton.addTarget(self, action: #selector(thumbsUpClicked), for: .touchUpInside)
 		thumbsDownButton.addTarget(self, action: #selector(thumbsDownClicked), for: .touchUpInside)
+		reportButton.addTarget(self, action: #selector(reportClicked), for: .touchUpInside)
 	}
 	
 	@objc func replyClicked() {
 		guard let post = post, let delegate = replyDelegate else { return }
-		delegate.didTapReply(origPostId: post.postId)
+		delegate.didTapReply(origPostId: post.postId, userId: post.userId)
 	}
 	
 	@objc func thumbsUpClicked() {
@@ -72,6 +79,9 @@ class HAPostButtonView: UIView {
 			thumbsUpButton.tintColor = .systemGray4
 			PersistenceManager().unlikePost(post: post.postId)
 		} else {
+			AudioServicesPlaySystemSound(1519)
+			thumbsUpButton.pulse()
+			sendLikeNotification(to: post.userId)
 			post.likes += 1
 			thumbsUpButton.tintColor = Colors.customGreen
 			PersistenceManager().likePost(post: post.postId)
@@ -90,6 +100,8 @@ class HAPostButtonView: UIView {
 			thumbsDownButton.tintColor = .systemGray4
 			PersistenceManager().undislikePost(post: post.postId)
 		} else {
+			AudioServicesPlaySystemSound(1519)
+			thumbsUpButton.pulse()
 			post.dislikes -= 1
 			thumbsDownButton.tintColor = .systemRed
 			PersistenceManager().dislikePost(post: post.postId)
@@ -99,22 +111,10 @@ class HAPostButtonView: UIView {
 		NetworkManager.shared.updateDislikes(for: post.postId, dislikes: post.dislikes)
 		thumbsDownButton.setTitle(String(post.dislikes), for: .normal)
 	}
-}
-
-extension HomeVC: ReplyDelegate {
-	func didTapReply(origPostId: String) {
-		navigationController?.pushViewController(NewReplyVC(origPostId: origPostId), animated: true)
+	
+	@objc func reportClicked(_ sender: UIButton) {
+		guard let post = post, let delegate = replyDelegate else { return }
+		delegate.didTapReport(origPost: post, sender: sender)
 	}
 }
 
-extension DetailVC: ReplyDelegate {
-	func didTapReply(origPostId: String) {
-		navigationController?.pushViewController(NewReplyVC(origPostId: origPostId), animated: true)
-	}
-}
-
-extension ProfileVC: ReplyDelegate {
-	func didTapReply(origPostId: String) {
-		navigationController?.pushViewController(NewReplyVC(origPostId: origPostId), animated: true)
-	}
-}

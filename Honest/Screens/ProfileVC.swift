@@ -34,13 +34,15 @@ class ProfileVC: HADataLoadingVC {
     private func configureViewController() {
         view.backgroundColor = .secondarySystemBackground
         navigationController?.navigationBar.prefersLargeTitles = true
+		
+		self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: SFSymbols.settings, style: .plain, target: self, action: #selector(settingsClicked))
     }
 	
 	private func configureCollectionView() {
 		collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: UIHelper.createCVFlowLayout(in: self.view))
 		
 		view.addSubview(collectionView)
-		collectionView.backgroundColor = .systemBackground
+		collectionView.backgroundColor = .secondarySystemBackground
 		collectionView.delegate = self
 		collectionView.dataSource = self
 		collectionView.register(PostCell.self, forCellWithReuseIdentifier: PostCell.reuseID)
@@ -76,6 +78,10 @@ class ProfileVC: HADataLoadingVC {
         getUserPosts()
         self.refresher.endRefreshing()
     }
+	
+	@objc func settingsClicked() {
+		navigationController?.pushViewController(SettingsVC(), animated: true)
+	}
 }
 
 extension ProfileVC: UICollectionViewDelegate, UICollectionViewDataSource {

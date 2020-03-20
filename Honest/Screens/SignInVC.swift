@@ -24,9 +24,6 @@ class SignInVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        view.backgroundColor = .secondarySystemBackground
-        title = "Sign In"
-        
 		/*
         //FirebaseUI Sign In
         let authUI = FUIAuth.defaultAuthUI()
@@ -67,7 +64,8 @@ class SignInVC: UIViewController {
             }
         }
 		*/
-        setupView()
+        configureVC()
+		setupView()
     }
 	
 	override func viewWillAppear(_ animated: Bool) {
@@ -83,26 +81,79 @@ class SignInVC: UIViewController {
 		navigationController?.setNavigationBarHidden(false, animated: true)
 		tabBarController?.tabBar.isHidden = false
 	}
+	
+	private func configureVC() {
+		view.backgroundColor = .secondarySystemBackground
+        title = "Sign In"
+	}
     
     func setupView() {
+		let imageView: UIImageView = {
+			let iv = UIImageView()
+			iv.image = UIImage(named: "Honest")
+			iv.layer.cornerRadius = 10
+			iv.clipsToBounds = true
+			iv.translatesAutoresizingMaskIntoConstraints = false
+			return iv
+		}()
+		
+		let titleLabel: HATitleLabel = {
+			let lbl = HATitleLabel(textAlignment: .left, fontSize: 30)
+			lbl.text = "Honest"
+			return lbl
+		}()
+		
+		let subtitleLabel: HABodyLabel = {
+			let lbl = HABodyLabel(textAlignment: .left)
+			lbl.text = "Get anonymous advice quickly! Click below to get started!"
+			lbl.textColor = .secondaryLabel
+			lbl.font = UIFont.systemFont(ofSize: 18, weight: .medium)
+			return lbl
+		}()
+		
         let signInButton: UIButton = {
-            let button = UIButton(frame: CGRect(x: view.center.x, y: view.frame.height / 3.5, width: view.frame.width / 2, height: 75))
+            let button = UIButton()
             button.center.x = view.center.x
-            button.layer.cornerRadius = 25
-            button.backgroundColor = UIColor(red: 60/255, green: 197/255, blue: 1, alpha: 1)
+            button.layer.cornerRadius = 10
+			button.backgroundColor = Colors.customBlue
             button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 20)
             button.setTitle("Sign In", for: .normal)
             button.setTitleColor(.white, for: .normal)
+			button.addTarget(self, action: #selector(signIn), for: .touchUpInside)
+			button.translatesAutoresizingMaskIntoConstraints = false
             return button
         }()
-        view.addSubview(signInButton)
-        
-        signInButton.addTarget(self, action: #selector(signIn), for: .touchUpInside)
+		
+        view.addSubviews(imageView, titleLabel, subtitleLabel, signInButton)
+		
+		let padding: CGFloat = 40
+		let imageHW: CGFloat = 100
+		
+		NSLayoutConstraint.activate([
+			imageView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 150),
+			imageView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: padding),
+			imageView.heightAnchor.constraint(equalToConstant: imageHW),
+			imageView.widthAnchor.constraint(equalToConstant: imageHW),
+			
+			titleLabel.topAnchor.constraint(equalTo: imageView.topAnchor, constant: 0),
+			titleLabel.leadingAnchor.constraint(equalTo: imageView.trailingAnchor, constant: 10),
+			titleLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -padding),
+			titleLabel.heightAnchor.constraint(equalToConstant: 35),
+			
+			subtitleLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 5),
+			subtitleLabel.leadingAnchor.constraint(equalTo: titleLabel.leadingAnchor),
+			subtitleLabel.trailingAnchor.constraint(equalTo: titleLabel.trailingAnchor),
+			subtitleLabel.heightAnchor.constraint(equalToConstant: 65),
+			
+			signInButton.topAnchor.constraint(equalTo: subtitleLabel.bottomAnchor, constant: padding),
+			signInButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: padding),
+			signInButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -padding),
+			signInButton.heightAnchor.constraint(equalToConstant: 55)
+		])
     }
     
     @objc func signIn() {
 		if Auth.auth().currentUser != nil {
-			print("User signed in")
 			navigationController?.popViewController(animated: true)
 		} else {
 			let authUI = FUIAuth.defaultAuthUI()

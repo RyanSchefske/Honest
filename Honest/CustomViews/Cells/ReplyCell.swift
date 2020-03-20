@@ -27,7 +27,7 @@ class ReplyCell: UICollectionViewCell {
 		postContentView.dateLabel.text = reply.date.convertToMonthDayYearFormat()
 		postContentView.bodyLabel.text = reply.content
 		postContentView.categoryLabel.text = "Reply"
-		postContentView.backgroundColor = .systemGray4
+		postContentView.backgroundColor = .systemGray5
 	}
 	
 	private func configure() {

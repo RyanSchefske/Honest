@@ -27,11 +27,11 @@ class HAPostContentView: UIView {
     }
     
     private func configure() {
-        backgroundColor = .systemBackground
+		backgroundColor = .tertiarySystemBackground
 		layer.cornerRadius = 15
 		
-		layer.shadowColor = UIColor.systemGray.cgColor
-		layer.shadowOpacity = 0.5
+		layer.shadowColor = UIColor.black.cgColor
+		layer.shadowOpacity = 0.2
 		layer.shadowRadius = 15
 		
 		translatesAutoresizingMaskIntoConstraints = false

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3D3FC90224216ADF006BF92F /* PushNotifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D3FC90124216ADF006BF92F /* PushNotifications.swift */; };
 		3D51DE3A2400B842006644DA /* UIViewController+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D51DE392400B842006644DA /* UIViewController+Ext.swift */; };
 		3D51DE3C2400BCD7006644DA /* UIHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D51DE3B2400BCD7006644DA /* UIHelper.swift */; };
 		3D51DE3E2400C17A006644DA /* HAPostContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D51DE3D2400C17A006644DA /* HAPostContentView.swift */; };
@@ -33,8 +34,13 @@
 		3D793E8924036DF800BB018C /* HAError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D793E8824036DF800BB018C /* HAError.swift */; };
 		3D82E6EB2415DE6A00C13BC1 /* ReplyCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D82E6EA2415DE6A00C13BC1 /* ReplyCell.swift */; };
 		3D82E6ED2415E9F400C13BC1 /* NewReplyVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D82E6EC2415E9F400C13BC1 /* NewReplyVC.swift */; };
+		3D84FD8C242025BB00C8E2BB /* NativeAdCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D84FD8B242025BB00C8E2BB /* NativeAdCell.swift */; };
 		3DDD3368241310770060159C /* DetailVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DDD3367241310770060159C /* DetailVC.swift */; };
 		3DDD336B241313DF0060159C /* HATextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DDD336A241313DF0060159C /* HATextView.swift */; };
+		3DDF395B2419B268006FD727 /* Delegates.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DDF395A2419B267006FD727 /* Delegates.swift */; };
+		3DDF395D2419B929006FD727 /* Alert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DDF395C2419B929006FD727 /* Alert.swift */; };
+		3DDF3960241D4AB3006FD727 /* UIButton+Anim.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DDF395F241D4AB3006FD727 /* UIButton+Anim.swift */; };
+		3DDF3962241EDEC0006FD727 /* SettingsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DDF3961241EDEC0006FD727 /* SettingsVC.swift */; };
 		3DFBAC3C24007BB2000956CB /* ProfileVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DFBAC3B24007BB2000956CB /* ProfileVC.swift */; };
 		3DFBAC3E24007D72000956CB /* NewPostVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DFBAC3D24007D72000956CB /* NewPostVC.swift */; };
 		3DFBAC412400804A000956CB /* FeedCV.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DFBAC402400804A000956CB /* FeedCV.swift */; };
@@ -51,6 +57,8 @@
 
 /* Begin PBXFileReference section */
 		21D0676708D920B477D23534 /* Pods-Honest.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Honest.release.xcconfig"; path = "Target Support Files/Pods-Honest/Pods-Honest.release.xcconfig"; sourceTree = "<group>"; };
+		3D3FC90124216ADF006BF92F /* PushNotifications.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushNotifications.swift; sourceTree = "<group>"; };
+		3D3FC903242173D5006BF92F /* Honest.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Honest.entitlements; sourceTree = "<group>"; };
 		3D51DE392400B842006644DA /* UIViewController+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Ext.swift"; sourceTree = "<group>"; };
 		3D51DE3B2400BCD7006644DA /* UIHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIHelper.swift; sourceTree = "<group>"; };
 		3D51DE3D2400C17A006644DA /* HAPostContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HAPostContentView.swift; sourceTree = "<group>"; };
@@ -79,8 +87,13 @@
 		3D793E8824036DF800BB018C /* HAError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HAError.swift; sourceTree = "<group>"; };
 		3D82E6EA2415DE6A00C13BC1 /* ReplyCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReplyCell.swift; sourceTree = "<group>"; };
 		3D82E6EC2415E9F400C13BC1 /* NewReplyVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewReplyVC.swift; sourceTree = "<group>"; };
+		3D84FD8B242025BB00C8E2BB /* NativeAdCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NativeAdCell.swift; sourceTree = "<group>"; };
 		3DDD3367241310770060159C /* DetailVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailVC.swift; sourceTree = "<group>"; };
 		3DDD336A241313DF0060159C /* HATextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HATextView.swift; sourceTree = "<group>"; };
+		3DDF395A2419B267006FD727 /* Delegates.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Delegates.swift; sourceTree = "<group>"; };
+		3DDF395C2419B929006FD727 /* Alert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Alert.swift; sourceTree = "<group>"; };
+		3DDF395F241D4AB3006FD727 /* UIButton+Anim.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIButton+Anim.swift"; sourceTree = "<group>"; };
+		3DDF3961241EDEC0006FD727 /* SettingsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsVC.swift; sourceTree = "<group>"; };
 		3DFBAC3B24007BB2000956CB /* ProfileVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileVC.swift; sourceTree = "<group>"; };
 		3DFBAC3D24007D72000956CB /* NewPostVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewPostVC.swift; sourceTree = "<group>"; };
 		3DFBAC402400804A000956CB /* FeedCV.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedCV.swift; sourceTree = "<group>"; };
@@ -153,11 +166,13 @@
 		3D6BE2212400691900862AA7 /* Honest */ = {
 			isa = PBXGroup;
 			children = (
+				3D3FC903242173D5006BF92F /* Honest.entitlements */,
 				3DFBAC3A240077EC000956CB /* Screens */,
 				3D793E7E240361A200BB018C /* Managers */,
 				3D6BE23B2400744200862AA7 /* Utilities */,
 				3D793E832403641A00BB018C /* Model */,
 				3D6BE2372400728C00862AA7 /* CustomViews */,
+				3DDF395E241D4A92006FD727 /* Animations */,
 				3DFBAC552400B664000956CB /* Extensions */,
 				3D6BE2362400696000862AA7 /* Support */,
 			);
@@ -209,6 +224,9 @@
 				3D51DE3B2400BCD7006644DA /* UIHelper.swift */,
 				3D793E8824036DF800BB018C /* HAError.swift */,
 				3D54AB4224133C170087CDC0 /* Censor.swift */,
+				3DDF395A2419B267006FD727 /* Delegates.swift */,
+				3DDF395C2419B929006FD727 /* Alert.swift */,
+				3D3FC90124216ADF006BF92F /* PushNotifications.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -239,6 +257,14 @@
 			path = TextViews;
 			sourceTree = "<group>";
 		};
+		3DDF395E241D4A92006FD727 /* Animations */ = {
+			isa = PBXGroup;
+			children = (
+				3DDF395F241D4AB3006FD727 /* UIButton+Anim.swift */,
+			);
+			path = Animations;
+			sourceTree = "<group>";
+		};
 		3DFBAC3A240077EC000956CB /* Screens */ = {
 			isa = PBXGroup;
 			children = (
@@ -248,6 +274,7 @@
 				3DFBAC3D24007D72000956CB /* NewPostVC.swift */,
 				3D82E6EC2415E9F400C13BC1 /* NewReplyVC.swift */,
 				3DFBAC3B24007BB2000956CB /* ProfileVC.swift */,
+				3DDF3961241EDEC0006FD727 /* SettingsVC.swift */,
 			);
 			path = Screens;
 			sourceTree = "<group>";
@@ -265,6 +292,7 @@
 			children = (
 				3DFBAC43240080C7000956CB /* PostCell.swift */,
 				3D82E6EA2415DE6A00C13BC1 /* ReplyCell.swift */,
+				3D84FD8B242025BB00C8E2BB /* NativeAdCell.swift */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -473,9 +501,12 @@
 				3D51DE3C2400BCD7006644DA /* UIHelper.swift in Sources */,
 				3DFBAC47240084CD000956CB /* HADataLoadingVC.swift in Sources */,
 				3DFBAC412400804A000956CB /* FeedCV.swift in Sources */,
+				3D3FC90224216ADF006BF92F /* PushNotifications.swift in Sources */,
 				3D6BE23A240072EF00862AA7 /* HATabBarController.swift in Sources */,
 				3D793E8924036DF800BB018C /* HAError.swift in Sources */,
+				3DDF3960241D4AB3006FD727 /* UIButton+Anim.swift in Sources */,
 				3D51DE452400CD4D006644DA /* HAPostButtonView.swift in Sources */,
+				3D84FD8C242025BB00C8E2BB /* NativeAdCell.swift in Sources */,
 				3D6BE2272400691900862AA7 /* HomeVC.swift in Sources */,
 				3D51DE492400D6ED006644DA /* HAPostActionButton.swift in Sources */,
 				3D51DE412400C1F6006644DA /* HAAvatarIV.swift in Sources */,
@@ -483,8 +514,11 @@
 				3DFBAC44240080C7000956CB /* PostCell.swift in Sources */,
 				3DFBAC542400B5E1000956CB /* HAButton.swift in Sources */,
 				3D6BE2232400691900862AA7 /* AppDelegate.swift in Sources */,
+				3DDF395D2419B929006FD727 /* Alert.swift in Sources */,
 				3D51DE432400C852006644DA /* HASubtitleLabel.swift in Sources */,
 				3D51DE3E2400C17A006644DA /* HAPostContentView.swift in Sources */,
+				3DDF395B2419B268006FD727 /* Delegates.swift in Sources */,
+				3DDF3962241EDEC0006FD727 /* SettingsVC.swift in Sources */,
 				3DFBAC4C2400B516000956CB /* HAAlertVC.swift in Sources */,
 				3DFBAC4A2400B478000956CB /* HAAlertContainerView.swift in Sources */,
 				3D54AB4124133BB50087CDC0 /* SignInVC.swift in Sources */,
@@ -631,7 +665,9 @@
 			baseConfigurationReference = 98B7A52C92EC67EFF0B626A3 /* Pods-Honest.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = Honest/Honest.entitlements;
 				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 3;
 				DEVELOPMENT_TEAM = 3LN4LFZD99;
 				INFOPLIST_FILE = Honest/Support/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
@@ -639,10 +675,11 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				MARKETING_VERSION = 2.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.ryanschefske.Advice;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = 1;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
@@ -651,7 +688,9 @@
 			baseConfigurationReference = 21D0676708D920B477D23534 /* Pods-Honest.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = Honest/Honest.entitlements;
 				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 3;
 				DEVELOPMENT_TEAM = 3LN4LFZD99;
 				INFOPLIST_FILE = Honest/Support/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
@@ -659,10 +698,11 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				MARKETING_VERSION = 2.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.ryanschefske.Advice;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = 1;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
 		};
