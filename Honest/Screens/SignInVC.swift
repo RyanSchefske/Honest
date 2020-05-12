@@ -24,46 +24,6 @@ class SignInVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-		/*
-        //FirebaseUI Sign In
-        let authUI = FUIAuth.defaultAuthUI()
-        var _ = Auth.auth().addStateDidChangeListener { (auth, user) in
-            if Auth.auth().currentUser != nil {
-                if let token = Messaging.messaging().fcmToken {
-                    self.db.collection("users").whereField("userId", isEqualTo: Auth.auth().currentUser!.uid).getDocuments(completion: { (querySnapshot, error) in
-                        if error != nil {
-                            print("Error: \(error!.localizedDescription)")
-                        } else {
-                            if querySnapshot?.documents.count != 0 {
-                                print("Found")
-								print(Auth.auth().currentUser)
-                            } else {
-                                self.db.collection("users").addDocument(data: [
-                                    "userId": Auth.auth().currentUser!.uid,
-                                    "email": Auth.auth().currentUser!.email ?? "N/A",
-                                    "notificationToken": token
-                                ]) { err in
-                                    if let err = err {
-                                        print("Error adding document: \(err)")
-                                    }
-                                }
-                            }
-                        }
-                    })
-                    print("Sign In Token: \(token)")
-                } else {
-                    print("No token found")
-                }
-                self.navigationController?.popViewController(animated: true)
-            } else {
-                authUI?.delegate = self
-                authUI?.providers = self.providers
-                
-                let authViewController = FUIAuth.defaultAuthUI()!.authViewController()
-                self.present(authViewController, animated: true, completion: nil)
-            }
-        }
-		*/
         configureVC()
 		setupView()
     }

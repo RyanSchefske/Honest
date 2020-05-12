@@ -49,6 +49,7 @@ class HomeVC: HADataLoadingVC, GADUnifiedNativeAdLoaderDelegate {
 		configurePullToRefresh()
 		checkSignedIn()
 		checkFirstLaunch()
+		setupCustomBarButton()
 		getAds()
     }
 	
@@ -65,6 +66,18 @@ class HomeVC: HADataLoadingVC, GADUnifiedNativeAdLoaderDelegate {
 		} else {
 			checkSignedIn()
 		}
+	}
+	
+	private func setupCustomBarButton() {
+		let rightBarButton = UIButton(frame: CGRect(x: 0, y: 0, width: 20, height: 20))
+		rightBarButton.setImage(UIImage(named: "filter"), for: .normal)
+		rightBarButton.addTarget(self, action: #selector(filterTapped), for: .touchUpInside)
+		rightBarButton.tintColor = Colors.customBlue
+		
+		let menuButton = UIBarButtonItem(customView: rightBarButton)
+		menuButton.customView?.widthAnchor.constraint(equalToConstant: 30).isActive = true
+		menuButton.customView?.heightAnchor.constraint(equalToConstant: 30).isActive = true
+		self.navigationItem.rightBarButtonItem = menuButton
 	}
 	
 	private func checkSignedIn() {
@@ -143,6 +156,10 @@ class HomeVC: HADataLoadingVC, GADUnifiedNativeAdLoaderDelegate {
 		
 		posts = posts.filter { !blockedUsers.contains($0.userId) }
 		posts = posts.filter { !hiddenPosts.contains($0.postId) }
+	}
+	
+	@objc func filterTapped() {
+		navigationController?.pushViewController(FilterVC(), animated: true)
 	}
 	
 	func getAds() {

@@ -15,6 +15,7 @@ class NewReplyVC: HADataLoadingVC, GADInterstitialDelegate {
 	let contentTextView = HATextView(frame: .zero, textContainer: nil)
 	var originalPostId: String!
 	var userId: String!
+	let profileButton = UIButton()
 	
 	var interstitial: GADInterstitial!
 
@@ -27,6 +28,12 @@ class NewReplyVC: HADataLoadingVC, GADInterstitialDelegate {
 		setupToolbar()
 		interstitial = createAndLoadInterstitial()
     }
+	
+	override func viewDidAppear(_ animated: Bool) {
+		super.viewDidAppear(animated)
+		
+		profileButton.isUserInteractionEnabled = true
+	}
 	
 	init(origPostId: String, userId: String) {
         super.init(nibName: nil, bundle: nil)
@@ -52,7 +59,6 @@ class NewReplyVC: HADataLoadingVC, GADInterstitialDelegate {
 	}
 	
 	private func setupCustomBarButton() {
-		let profileButton = UIButton()
 		profileButton.frame = CGRect(x: 0, y: 0, width: 65, height: 30)
 		profileButton.setTitle("Post", for: .normal)
 		profileButton.backgroundColor = Colors.customBlue
@@ -96,6 +102,7 @@ class NewReplyVC: HADataLoadingVC, GADInterstitialDelegate {
 		view.endEditing(true)
 		showLoadingView()
 		sendReplyNotification(to: userId)
+		profileButton.isUserInteractionEnabled = false
 		
 		if interstitial.isReady {
 			interstitial.present(fromRootViewController: self)

@@ -101,7 +101,7 @@ class HAPostButtonView: UIView {
 			PersistenceManager().undislikePost(post: post.postId)
 		} else {
 			AudioServicesPlaySystemSound(1519)
-			thumbsUpButton.pulse()
+			thumbsDownButton.pulse() 
 			post.dislikes -= 1
 			thumbsDownButton.tintColor = .systemRed
 			PersistenceManager().dislikePost(post: post.postId)

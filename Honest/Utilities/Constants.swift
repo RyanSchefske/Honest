@@ -9,6 +9,7 @@
 import UIKit
 
 enum SFSymbols {
+	//Tab bar images
     static let home = UIImage(systemName: "house")
     static let homeFilled = UIImage(systemName: "house.fill")
 	
@@ -18,6 +19,7 @@ enum SFSymbols {
     static let profile = UIImage(systemName: "person")
     static let profileFilled = UIImage(systemName: "person.fill")
     
+	//Post images
     static let avatarImage = UIImage(systemName: "person.crop.circle.fill")
 	
 	static let reply = UIImage(systemName: "arrowshape.turn.up.left.fill")
@@ -28,7 +30,19 @@ enum SFSymbols {
 	static let report = UIImage(systemName: "exclamationmark.octagon.fill")
 	static let ellipsis = UIImage(systemName: "ellipsis")
 	
+	//Settings image
 	static let settings = UIImage(systemName: "gear")
+	
+	//Filter images
+	static let lifeFilter = UIImage(systemName: "sun.max")
+	static let relationshipFilter = UIImage(systemName: "person.and.person")
+	static let workFilter = UIImage(systemName: "briefcase")
+	static let schoolFilter = UIImage(systemName: "book")
+	static let sportsFilter = UIImage(systemName: "sportscourt")
+	static let moneyFilter = UIImage(systemName: "dollarsign.square")
+	static let travelFilter = UIImage(systemName: "car")
+	static let healthFilter = UIImage(systemName: "heart")  
+	static let otherFilter = UIImage(systemName: "gift")
 }
 
 enum Colors {
@@ -44,7 +58,7 @@ enum ScreenSize {
 }
 
 enum DeviceTypes {
-    static let idiom                     = UIDevice.current.userInterfaceIdiom
+    static let idiom                    = UIDevice.current.userInterfaceIdiom
     static let nativeScale              = UIScreen.main.nativeScale
     static let scale                    = UIScreen.main.scale
     
