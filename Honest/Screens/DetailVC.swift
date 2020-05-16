@@ -7,11 +7,13 @@
 //
 
 import UIKit
+import GoogleMobileAds
 
 class DetailVC: HADataLoadingVC {
 	
 	var collectionView: UICollectionView!
 	var refresher = UIRefreshControl()
+	var bannerView: GADBannerView!
 	
 	var post: Post!
 	var replies: [Reply] = [] {
@@ -29,6 +31,7 @@ class DetailVC: HADataLoadingVC {
 		configureCollectionView()
 		configurePullToRefresh()
 		getReplies(postId: post.postId)
+		configureBannerView()
     }
 	
 	init(post: Post) {
@@ -49,7 +52,8 @@ class DetailVC: HADataLoadingVC {
 	
 	private func configureCollectionView() {
 		collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: UIHelper.createCVFlowLayout(in: self.view))
-        
+        collectionView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 50, right: 0)
+		
         view.addSubview(collectionView)
         collectionView.backgroundColor = .secondarySystemBackground
         collectionView.delegate = self
@@ -88,6 +92,21 @@ class DetailVC: HADataLoadingVC {
 		getReplies(postId: post.postId)
         self.refresher.endRefreshing()
     }
+	
+	private func configureBannerView() {
+		bannerView = GADBannerView(adSize: kGADAdSizeBanner)
+		bannerView.translatesAutoresizingMaskIntoConstraints = false
+		bannerView.adUnitID = "ca-app-pub-2392719817363402/9066254542"
+		bannerView.rootViewController = self
+		bannerView.delegate = self
+		bannerView.load(GADRequest())
+		view.addSubview(bannerView)
+		
+		NSLayoutConstraint.activate([
+			bannerView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+			bannerView.centerXAnchor.constraint(equalTo: view.centerXAnchor)
+		])
+	}
 }
 
 extension DetailVC: UICollectionViewDelegate, UICollectionViewDataSource {
@@ -108,6 +127,15 @@ extension DetailVC: UICollectionViewDelegate, UICollectionViewDataSource {
 			let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ReplyCell.reuseID, for: indexPath) as! ReplyCell
 			cell.set(reply: replies[indexPath.item - 1])
 			return cell
+		}
+	}
+}
+
+extension DetailVC: GADBannerViewDelegate {
+	func adViewDidReceiveAd(_ bannerView: GADBannerView) {
+		self.bannerView.alpha = 0
+		UIView.animate(withDuration: 1) {
+			self.bannerView.alpha = 1
 		}
 	}
 }

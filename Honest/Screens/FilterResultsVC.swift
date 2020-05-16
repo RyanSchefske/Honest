@@ -1,8 +1,8 @@
 //
-//  ViewController.swift
+//  FilterResultsVC.swift
 //  Honest
 //
-//  Created by Ryan Schefske on 2/21/20.
+//  Created by Ryan Schefske on 5/13/20.
 //  Copyright © 2020 Ryan Schefske. All rights reserved.
 //
 
@@ -10,27 +10,24 @@ import UIKit
 import FirebaseAuth
 import GoogleMobileAds
 
-class HomeVC: HADataLoadingVC {
+class FilterResultsVC: HADataLoadingVC {
 	
 	enum Section { case main }
     
     var collectionView: UICollectionView!
 	var refresher = UIRefreshControl()
 	
+	var filter = ""
 	var isLoadingPosts = false
 	var morePostsAvailable = true
 	var signInNeeded = false
-	
-	var scrollOffset: CGFloat = 0
-	var scrollingDown = true // Start true so initial cells animate
-	
 	weak var replyDelegate: ReplyDelegate!
+	
 	var bannerView: GADBannerView!
 	
 	var posts: [Post] = [] {
 		didSet {
 			DispatchQueue.main.async {
-				self.scrollingDown = true
 				self.collectionView.reloadData()
 			}
 		}
@@ -41,60 +38,15 @@ class HomeVC: HADataLoadingVC {
 		
         configureViewController()
         configureCollectionView()
+		getPosts(date: Date())
 		configurePullToRefresh()
-		checkSignedIn()
-		checkFirstLaunch()
-		setupCustomBarButton()
 		configureBannerView()
     }
-	
-	override func viewWillAppear(_ animated: Bool) {
-		super.viewWillAppear(animated)
-		
-		if Auth.auth().currentUser != nil {
-			NetworkManager.shared.updateToken()
-			
-			if signInNeeded {
-				getPosts(date: Date())
-				signInNeeded = false
-			}
-		} else {
-			checkSignedIn()
-		}
-	}
-	
-	private func setupCustomBarButton() {
-		let rightBarButton = UIButton(frame: CGRect(x: 0, y: 0, width: 20, height: 20))
-		rightBarButton.setImage(UIImage(named: "filter"), for: .normal)
-		rightBarButton.addTarget(self, action: #selector(filterTapped), for: .touchUpInside)
-		rightBarButton.tintColor = Colors.customBlue
-		
-		let menuButton = UIBarButtonItem(customView: rightBarButton)
-		menuButton.customView?.widthAnchor.constraint(equalToConstant: 30).isActive = true
-		menuButton.customView?.heightAnchor.constraint(equalToConstant: 30).isActive = true
-		self.navigationItem.rightBarButtonItem = menuButton
-	}
-	
-	private func checkSignedIn() {
-		if Auth.auth().currentUser == nil {
-			signInNeeded = true
-			self.navigationController?.pushViewController(SignInVC(), animated: true)
-		} else {
-			getPosts(date: Date())
-		}
-	}
-	
-	private func checkFirstLaunch() {
-		let launchedBefore = UserDefaults.standard.bool(forKey: "LaunchedBefore")
-        if !launchedBefore  {
-            presentHAAlertOnMainThread(title: "Terms of Use", message: "By using this app, you agree to the terms of use found in the app settings and on the company website.", buttonText: "Agree")
-            UserDefaults.standard.set(true, forKey: "LaunchedBefore")
-        }
-	}
 
     private func configureViewController() {
         view.backgroundColor = .secondarySystemBackground
         navigationController?.navigationBar.prefersLargeTitles = true
+		title = filter
 		replyDelegate = self
     }
     
@@ -116,7 +68,7 @@ class HomeVC: HADataLoadingVC {
 		
 		let newDate = date.addingTimeInterval(-1 * 60)
 		
-		NetworkManager.shared.getPosts(date: newDate) { [weak self] (result) in
+		NetworkManager.shared.getFilteredPosts(date: newDate, filter: filter) { [weak self] (result) in
 			guard let self = self else { return }
 			self.dismissLoadingView()
 			
@@ -174,7 +126,7 @@ class HomeVC: HADataLoadingVC {
 	}
 }
 
-extension HomeVC: UICollectionViewDelegate, UICollectionViewDataSource {
+extension FilterResultsVC: UICollectionViewDelegate, UICollectionViewDataSource {
 	
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
 		return posts.count
@@ -203,30 +155,9 @@ extension HomeVC: UICollectionViewDelegate, UICollectionViewDataSource {
 			getPosts(date: self.posts.last!.date)
         }
     }
-	
-	func scrollViewDidScroll(_ scrollView: UIScrollView) {
-		if scrollOffset < scrollView.contentOffset.y {
-			scrollingDown = true
-		} else {
-			scrollingDown = false
-		}
-		scrollOffset = scrollView.contentOffset.y
-	}
-	
-	func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-		if scrollingDown {
-			cell.alpha = 0.5
-			cell.transform = CGAffineTransform(translationX: 0, y: 30)
-			
-			UIView.animate(withDuration: 1, delay: 0, options: .curveEaseOut, animations: {
-				cell.alpha = 1
-				cell.transform = CGAffineTransform(translationX: 0, y: 0)
-			})
-		}
-	}
 }
 
-extension HomeVC: GADBannerViewDelegate {
+extension FilterResultsVC: GADBannerViewDelegate {
 	func adViewDidReceiveAd(_ bannerView: GADBannerView) {
 		self.bannerView.alpha = 0
 		UIView.animate(withDuration: 1) {
@@ -234,4 +165,3 @@ extension HomeVC: GADBannerViewDelegate {
 		}
 	}
 }
-

@@ -104,16 +104,15 @@ class NewReplyVC: HADataLoadingVC, GADInterstitialDelegate {
 		sendReplyNotification(to: userId)
 		profileButton.isUserInteractionEnabled = false
 		
-		if interstitial.isReady {
-			interstitial.present(fromRootViewController: self)
-		}
-		
-		//TODO: Animations for failed cases
 		if contentTextView.text.isEmpty {
-			contentTextView.layer.borderColor = UIColor.red.cgColor
+			dismissLoadingView()
+			profileButton.shake()
+			contentTextView.shake()
+			profileButton.isUserInteractionEnabled = true
 		} else {
+			if interstitial.isReady { interstitial.present(fromRootViewController: self) }
+			
 			let content = ProfanityFilter.cleanUp(contentTextView.text)
-			contentTextView.layer.borderColor = UIColor.lightGray.cgColor
 			NetworkManager.shared.postReply(origPostId: originalPostId, content: content) { (result) in
 				
 				self.dismissLoadingView()

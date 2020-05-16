@@ -30,6 +30,12 @@ class FilterCell: UICollectionViewCell {
 		backgroundColor = Colors.customBlue
 		layer.cornerRadius = 10
 		
+		layer.shadowColor = UIColor.black.cgColor
+		layer.shadowOpacity = 0.2
+		layer.shadowRadius = 10
+		layer.shadowOffset = CGSize(width: 0, height: 2)
+		layer.shadowPath = UIBezierPath(roundedRect: bounds, cornerRadius: 10).cgPath
+		
 		addSubviews(filterName, symbolImage)
 		
 		symbolImage.translatesAutoresizingMaskIntoConstraints = false

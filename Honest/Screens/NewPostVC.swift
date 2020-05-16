@@ -90,20 +90,21 @@ class NewPostVC: HADataLoadingVC, GADInterstitialDelegate {
         showLoadingView()
 		profileButton.isUserInteractionEnabled = false
 		
-		if interstitial.isReady {
-            interstitial.present(fromRootViewController: self)
-        }
-		
-		//TODO: Animations for failed cases
 		if categoryTextField.text!.isEmpty {
-            categoryTextField.layer.borderColor = UIColor.red.cgColor
+			self.dismissLoadingView()
+			profileButton.isUserInteractionEnabled = true
+			categoryTextField.shake()
         } else {
-            categoryTextField.layer.borderColor = UIColor.lightGray.cgColor
 			guard let category = categoryTextField.text else { return }
 			
 			if contentTextView.text.isEmpty {
-                contentTextView.layer.borderColor = UIColor.red.cgColor
+				self.dismissLoadingView()
+				profileButton.isUserInteractionEnabled = true
+				profileButton.shake()
+				contentTextView.shake()
             } else {
+				if interstitial.isReady { interstitial.present(fromRootViewController: self) }
+				
                 let content = ProfanityFilter.cleanUp(contentTextView.text)
                 contentTextView.layer.borderColor = UIColor.lightGray.cgColor
 				NetworkManager.shared.postAdvice(content: content, category: category) { (result) in
@@ -112,6 +113,8 @@ class NewPostVC: HADataLoadingVC, GADInterstitialDelegate {
 					
 					switch result {
 					case .success:
+						self.contentTextView.text = ""
+						self.categoryTextField.text = nil
 						self.tabBarController?.selectedIndex = 0
 						
 					case .failure(let error):

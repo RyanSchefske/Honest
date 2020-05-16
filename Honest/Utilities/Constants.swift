@@ -32,17 +32,19 @@ enum SFSymbols {
 	
 	//Settings image
 	static let settings = UIImage(systemName: "gear")
-	
-	//Filter images
-	static let lifeFilter = UIImage(systemName: "sun.max")
-	static let relationshipFilter = UIImage(systemName: "person.and.person")
-	static let workFilter = UIImage(systemName: "briefcase")
-	static let schoolFilter = UIImage(systemName: "book")
-	static let sportsFilter = UIImage(systemName: "sportscourt")
-	static let moneyFilter = UIImage(systemName: "dollarsign.square")
-	static let travelFilter = UIImage(systemName: "car")
-	static let healthFilter = UIImage(systemName: "heart")  
-	static let otherFilter = UIImage(systemName: "gift")
+}
+
+enum FilterImages {
+	static let lifeFilter = UIImage(named: "flower")
+	static let relationshipFilter = UIImage(named: "relationship")
+	static let workFilter = UIImage(named: "work")
+	static let schoolFilter = UIImage(named: "school")
+	static let sportsFilter = UIImage(named: "sports")
+	static let moneyFilter = UIImage(named: "money")
+	static let travelFilter = UIImage(named: "travel")
+	static let healthFilter = UIImage(named: "health")
+	static let otherFilter = UIImage(named: "other")
+	static let lightbulb = UIImage(named: "lightbulb")
 }
 
 enum Colors {

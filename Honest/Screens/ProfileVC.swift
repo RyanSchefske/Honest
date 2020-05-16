@@ -7,12 +7,14 @@
 //
 
 import UIKit
+import GoogleMobileAds
 
 class ProfileVC: HADataLoadingVC {
 	
 	var collectionView: UICollectionView!
 	var refresher = UIRefreshControl()
 	var emptyStateLabel = UILabel()
+	var bannerView: GADBannerView!
 	
 	var posts: [Post] = [] {
 		didSet {
@@ -29,6 +31,7 @@ class ProfileVC: HADataLoadingVC {
 		configureCollectionView()
 		getUserPosts()
 		configurePullToRefresh()
+		configureBannerView()
     }
     
     private func configureViewController() {
@@ -40,6 +43,7 @@ class ProfileVC: HADataLoadingVC {
 	
 	private func configureCollectionView() {
 		collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: UIHelper.createCVFlowLayout(in: self.view))
+		collectionView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 50, right: 0)
 		
 		view.addSubview(collectionView)
 		collectionView.backgroundColor = .secondarySystemBackground
@@ -82,6 +86,21 @@ class ProfileVC: HADataLoadingVC {
 	@objc func settingsClicked() {
 		navigationController?.pushViewController(SettingsVC(), animated: true)
 	}
+	
+	private func configureBannerView() {
+		bannerView = GADBannerView(adSize: kGADAdSizeBanner)
+		bannerView.translatesAutoresizingMaskIntoConstraints = false
+		bannerView.adUnitID = "ca-app-pub-2392719817363402/9066254542"
+		bannerView.rootViewController = self
+		bannerView.delegate = self
+		bannerView.load(GADRequest())
+		view.addSubview(bannerView)
+		
+		NSLayoutConstraint.activate([
+			bannerView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+			bannerView.centerXAnchor.constraint(equalTo: view.centerXAnchor)
+		])
+	}
 }
 
 extension ProfileVC: UICollectionViewDelegate, UICollectionViewDataSource {
@@ -101,4 +120,13 @@ extension ProfileVC: UICollectionViewDelegate, UICollectionViewDataSource {
 		let detailVC = DetailVC(post: selectedPost)
 		navigationController?.pushViewController(detailVC, animated: true)
     }
+}
+
+extension ProfileVC: GADBannerViewDelegate {
+	func adViewDidReceiveAd(_ bannerView: GADBannerView) {
+		self.bannerView.alpha = 0
+		UIView.animate(withDuration: 1) {
+			self.bannerView.alpha = 1
+		}
+	}
 }

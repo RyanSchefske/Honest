@@ -54,6 +54,42 @@ class NetworkManager {
         }
     }
 	
+	func getFilteredPosts(date: Date, filter: String, completed: @escaping (Result<[Post], HAError>) -> Void) {
+		var posts: [Post] = []
+		
+		let likes = PersistenceManager().fetchLikedPosts()
+		let dislikes = PersistenceManager().fetchDislikedPosts()
+		let hiddenPosts = PersistenceManager().fetchHiddenPosts()
+		let blockedUsers = PersistenceManager().fetchBlockedUsers()
+		
+		var liked = false
+		var disliked = false
+        
+		db.collection("posts").order(by: "date", descending: true).whereField("category", isEqualTo: filter).whereField("date", isLessThan: date).limit(to: 10).getDocuments() { (querySnapshot, err) in
+            if let err = err {
+                print("Error getting documents: \(err)")
+				completed(.failure(.unableToComplete))
+            } else {
+                for document in querySnapshot!.documents {
+                    let data = document.data()
+                    let timestamp: Timestamp = data["date"] as! Timestamp
+                    let date: Date = timestamp.dateValue()
+					
+					guard let postId = data["questionId"] as? String else { return }
+					if likes.contains(postId) { liked = true } else { liked = false }
+					if dislikes.contains(postId) { disliked = true } else { disliked = false }
+					
+					if hiddenPosts.contains(postId) { continue }
+					if blockedUsers.contains(postId) { continue }
+					
+					posts.append(Post(userId: data["userId"] as! String, postId: data["questionId"] as! String, content: data["question"] as! String, category: data["category"] as! String, date: date, likes: data["likes"] as! Int, dislikes: data["dislikes"] as! Int, replies: data["replies"] as! Int, reports: data["reports"] as! Int, liked: liked, disliked: disliked))
+                }
+                posts = posts.sorted(by: { $0.date.compare($1.date) == .orderedDescending })
+				completed(.success(posts))
+            }
+        }
+    }
+	
 	func postAdvice(content: String, category: String, completed: @escaping (Result<Bool, HAError>) -> Void) {
 		guard let user = Auth.auth().currentUser else { return }
 		let newDate = Date().addingTimeInterval(-1 * 60)

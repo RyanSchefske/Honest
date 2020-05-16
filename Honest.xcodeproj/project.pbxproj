@@ -19,6 +19,7 @@
 		3D54AB3F24132E4F0087CDC0 /* HATextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D54AB3E24132E4F0087CDC0 /* HATextField.swift */; };
 		3D54AB4124133BB50087CDC0 /* SignInVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D54AB4024133BB50087CDC0 /* SignInVC.swift */; };
 		3D54AB4324133C170087CDC0 /* Censor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D54AB4224133C170087CDC0 /* Censor.swift */; };
+		3D5EE6F6246C5A730077E783 /* FilterResultsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D5EE6F5246C5A730077E783 /* FilterResultsVC.swift */; };
 		3D6BE2232400691900862AA7 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D6BE2222400691900862AA7 /* AppDelegate.swift */; };
 		3D6BE2252400691900862AA7 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D6BE2242400691900862AA7 /* SceneDelegate.swift */; };
 		3D6BE2272400691900862AA7 /* HomeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D6BE2262400691900862AA7 /* HomeVC.swift */; };
@@ -35,6 +36,7 @@
 		3D82E6EB2415DE6A00C13BC1 /* ReplyCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D82E6EA2415DE6A00C13BC1 /* ReplyCell.swift */; };
 		3D82E6ED2415E9F400C13BC1 /* NewReplyVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D82E6EC2415E9F400C13BC1 /* NewReplyVC.swift */; };
 		3D84FD8C242025BB00C8E2BB /* NativeAdCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D84FD8B242025BB00C8E2BB /* NativeAdCell.swift */; };
+		3D8A2D66247097730005ACA1 /* UITextField+Anim.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D8A2D65247097730005ACA1 /* UITextField+Anim.swift */; };
 		3DA03DE62467478F0054AE4E /* FilterVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DA03DE52467478F0054AE4E /* FilterVC.swift */; };
 		3DA03DE8246749FE0054AE4E /* FilterCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DA03DE7246749FE0054AE4E /* FilterCell.swift */; };
 		3DDD3368241310770060159C /* DetailVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DDD3367241310770060159C /* DetailVC.swift */; };
@@ -72,6 +74,7 @@
 		3D54AB3E24132E4F0087CDC0 /* HATextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HATextField.swift; sourceTree = "<group>"; };
 		3D54AB4024133BB50087CDC0 /* SignInVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInVC.swift; sourceTree = "<group>"; };
 		3D54AB4224133C170087CDC0 /* Censor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Censor.swift; sourceTree = "<group>"; };
+		3D5EE6F5246C5A730077E783 /* FilterResultsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterResultsVC.swift; sourceTree = "<group>"; };
 		3D6BE21F2400691900862AA7 /* Honest.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Honest.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3D6BE2222400691900862AA7 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		3D6BE2242400691900862AA7 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -90,6 +93,7 @@
 		3D82E6EA2415DE6A00C13BC1 /* ReplyCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReplyCell.swift; sourceTree = "<group>"; };
 		3D82E6EC2415E9F400C13BC1 /* NewReplyVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewReplyVC.swift; sourceTree = "<group>"; };
 		3D84FD8B242025BB00C8E2BB /* NativeAdCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NativeAdCell.swift; sourceTree = "<group>"; };
+		3D8A2D65247097730005ACA1 /* UITextField+Anim.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITextField+Anim.swift"; sourceTree = "<group>"; };
 		3DA03DE52467478F0054AE4E /* FilterVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterVC.swift; sourceTree = "<group>"; };
 		3DA03DE7246749FE0054AE4E /* FilterCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterCell.swift; sourceTree = "<group>"; };
 		3DDD3367241310770060159C /* DetailVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailVC.swift; sourceTree = "<group>"; };
@@ -265,6 +269,7 @@
 			isa = PBXGroup;
 			children = (
 				3DDF395F241D4AB3006FD727 /* UIButton+Anim.swift */,
+				3D8A2D65247097730005ACA1 /* UITextField+Anim.swift */,
 			);
 			path = Animations;
 			sourceTree = "<group>";
@@ -275,6 +280,7 @@
 				3D54AB4024133BB50087CDC0 /* SignInVC.swift */,
 				3D6BE2262400691900862AA7 /* HomeVC.swift */,
 				3DA03DE52467478F0054AE4E /* FilterVC.swift */,
+				3D5EE6F5246C5A730077E783 /* FilterResultsVC.swift */,
 				3DDD3367241310770060159C /* DetailVC.swift */,
 				3DFBAC3D24007D72000956CB /* NewPostVC.swift */,
 				3D82E6EC2415E9F400C13BC1 /* NewReplyVC.swift */,
@@ -529,6 +535,7 @@
 				3DDF3962241EDEC0006FD727 /* SettingsVC.swift in Sources */,
 				3DFBAC4C2400B516000956CB /* HAAlertVC.swift in Sources */,
 				3DFBAC4A2400B478000956CB /* HAAlertContainerView.swift in Sources */,
+				3D8A2D66247097730005ACA1 /* UITextField+Anim.swift in Sources */,
 				3D54AB4124133BB50087CDC0 /* SignInVC.swift in Sources */,
 				3D6BE2252400691900862AA7 /* SceneDelegate.swift in Sources */,
 				3D82E6ED2415E9F400C13BC1 /* NewReplyVC.swift in Sources */,
@@ -536,6 +543,7 @@
 				3D793E852403642E00BB018C /* Post.swift in Sources */,
 				3DFBAC3E24007D72000956CB /* NewPostVC.swift in Sources */,
 				3D54AB3F24132E4F0087CDC0 /* HATextField.swift in Sources */,
+				3D5EE6F6246C5A730077E783 /* FilterResultsVC.swift in Sources */,
 				3DFBAC512400B583000956CB /* HABodyLabel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

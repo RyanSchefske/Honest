@@ -35,6 +35,28 @@ class PostCell: UICollectionViewCell {
 		postButtonView.post = post
 		postButtonView.replyDelegate = delegate
 		
+		if post.category == "Life" {
+			postContentView.avatarIV.image = FilterImages.lifeFilter
+		} else if post.category == "Relationship" {
+			postContentView.avatarIV.image = FilterImages.relationshipFilter
+		} else if post.category == "Work" {
+			postContentView.avatarIV.image = FilterImages.workFilter
+		} else if post.category == "School" {
+			postContentView.avatarIV.image = FilterImages.schoolFilter
+		} else if post.category == "Sports" {
+			postContentView.avatarIV.image = FilterImages.sportsFilter
+		} else if post.category == "Money" {
+			postContentView.avatarIV.image = FilterImages.moneyFilter
+		} else if post.category == "Travel" {
+			postContentView.avatarIV.image = FilterImages.travelFilter
+		} else if post.category == "Health" {
+			postContentView.avatarIV.image = FilterImages.healthFilter
+		} else if post.category == "Other" {
+			postContentView.avatarIV.image = FilterImages.otherFilter
+		} else {
+			postContentView.avatarIV.image = FilterImages.lightbulb
+		}
+		
 		if post.liked {
 			postButtonView.thumbsUpButton.tintColor = Colors.customGreen
 		} else {

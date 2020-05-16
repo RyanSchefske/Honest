@@ -10,6 +10,7 @@ import UIKit
 
 class HAPostContentView: UIView {
 	
+	let avatarBGView = UIView()
     let avatarIV = HAAvatarIV(frame: .zero)
 	let usernameLabel = HATitleLabel(textAlignment: .left, fontSize: 20)
 	let dateLabel = HASubtitleLabel(fontSize: 14, textAlignment: .right)
@@ -36,19 +37,29 @@ class HAPostContentView: UIView {
 		
 		translatesAutoresizingMaskIntoConstraints = false
 		
-		addSubviews(avatarIV, usernameLabel, dateLabel, categoryLabel, bodyLabel)
+		avatarBGView.translatesAutoresizingMaskIntoConstraints = false
+		avatarBGView.layer.cornerRadius = 35
+		avatarBGView.backgroundColor = Colors.customBlue
+		
+		addSubviews(avatarBGView, usernameLabel, dateLabel, categoryLabel, bodyLabel)
+		avatarBGView.addSubview(avatarIV)
 		
 		let labelHeight: CGFloat = 24
 		let padding: CGFloat = 10
         
         NSLayoutConstraint.activate([
-            avatarIV.topAnchor.constraint(equalTo: topAnchor, constant: padding),
-            avatarIV.leadingAnchor.constraint(equalTo: leadingAnchor, constant: padding),
-            avatarIV.heightAnchor.constraint(equalToConstant: 75),
-            avatarIV.widthAnchor.constraint(equalToConstant: 75),
+			avatarBGView.topAnchor.constraint(equalTo: topAnchor, constant: padding),
+			avatarBGView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: padding),
+			avatarBGView.heightAnchor.constraint(equalToConstant: 70),
+			avatarBGView.widthAnchor.constraint(equalToConstant: 70),
 			
-			usernameLabel.topAnchor.constraint(equalTo: avatarIV.topAnchor, constant: padding),
-			usernameLabel.leadingAnchor.constraint(equalTo: avatarIV.trailingAnchor, constant: 5),
+			avatarIV.centerXAnchor.constraint(equalTo: avatarBGView.centerXAnchor),
+			avatarIV.centerYAnchor.constraint(equalTo: avatarBGView.centerYAnchor),
+            avatarIV.heightAnchor.constraint(equalToConstant: 55),
+            avatarIV.widthAnchor.constraint(equalToConstant: 55),
+			
+			usernameLabel.topAnchor.constraint(equalTo: avatarBGView.topAnchor, constant: padding),
+			usernameLabel.leadingAnchor.constraint(equalTo: avatarBGView.trailingAnchor, constant: padding),
 			usernameLabel.widthAnchor.constraint(equalToConstant: 110),
 			usernameLabel.heightAnchor.constraint(equalToConstant: labelHeight),
 			

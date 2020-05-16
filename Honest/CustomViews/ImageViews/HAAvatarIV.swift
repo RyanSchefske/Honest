@@ -21,10 +21,8 @@ class HAAvatarIV: UIImageView {
     }
     
     private func configure() {
-        layer.cornerRadius = 75 / 2
         clipsToBounds = true
-        image = SFSymbols.avatarImage
-        tintColor = Colors.customBlue
+		image = FilterImages.lightbulb
         translatesAutoresizingMaskIntoConstraints = false
     }
 }

@@ -27,24 +27,34 @@ enum UIHelper {
 extension HomeVC: UICollectionViewDelegateFlowLayout {
 	
 	func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-		if indexPath.item % 5 == 0 {
-			return CGSize(width: collectionView.frame.width - 20, height: 350)
-		} else if indexPath.item % 5 == 0 || (indexPath.item * 4 / 5) > posts.count - 1 {
-			return CGSize(width: 0, height: 0)
-		} else {
-			let cellIndex = indexPath.item * 4 / 5
-			if let post = posts[cellIndex] as? Post {
-				let approximateWidthOfText = collectionView.frame.width - 105
-				let size = CGSize(width: approximateWidthOfText, height: 1000)
-				let attributes = [NSAttributedString.Key.font: UIFont.preferredFont(forTextStyle: .body).withSize(14)]
-				
-				let estimatedFrame = NSString(string: post.content).boundingRect(with: size, options: .usesLineFragmentOrigin, attributes: attributes, context: nil)
-				
-				return CGSize(width: collectionView.frame.width - 20, height: estimatedFrame.height + 200)
-			} else {
-				return CGSize(width: collectionView.frame.width - 20, height: 200)
-			}
-		}
+		
+		let post = posts[indexPath.item]
+		let approximateWidthOfText = collectionView.frame.width - 105
+		let size = CGSize(width: approximateWidthOfText, height: 1000)
+		let attributes = [NSAttributedString.Key.font: UIFont.preferredFont(forTextStyle: .body).withSize(14)]
+		
+		let estimatedFrame = NSString(string: post.content).boundingRect(with: size, options: .usesLineFragmentOrigin, attributes: attributes, context: nil)
+		
+		return CGSize(width: collectionView.frame.width - 20, height: estimatedFrame.height + 200)
+	}
+	
+	func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+		return 0
+	}
+}
+
+extension FilterResultsVC: UICollectionViewDelegateFlowLayout {
+	
+	func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+		
+		let post = posts[indexPath.item]
+		let approximateWidthOfText = collectionView.frame.width - 105
+		let size = CGSize(width: approximateWidthOfText, height: 1000)
+		let attributes = [NSAttributedString.Key.font: UIFont.preferredFont(forTextStyle: .body).withSize(14)]
+		
+		let estimatedFrame = NSString(string: post.content).boundingRect(with: size, options: .usesLineFragmentOrigin, attributes: attributes, context: nil)
+		
+		return CGSize(width: collectionView.frame.width - 20, height: estimatedFrame.height + 200)
 	}
 }
 

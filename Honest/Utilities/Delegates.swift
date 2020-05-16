@@ -30,6 +30,27 @@ extension HomeVC: ReplyDelegate {
 	}
 }
 
+extension FilterResultsVC: ReplyDelegate {
+	func didTapReport(origPost: Post, sender: UIButton) {
+		if Auth.auth().currentUser!.uid == origPost.userId {
+			self.presentHAAlertOnMainThread(title: "Error", message: HAError.unableToReport.rawValue, buttonText: "Okay")
+		} else {
+			Alert.showAlert(on: self, for: origPost, sender: sender) { (action) in
+				switch action {
+				case true:
+					self.removeBlockedHiddenContent()
+				case false:
+					print("Do nothing")
+				}
+			}
+		}
+	}
+	
+	func didTapReply(origPostId: String, userId: String) {
+		navigationController?.pushViewController(NewReplyVC(origPostId: origPostId, userId: userId), animated: true)
+	}
+}
+
 extension DetailVC: ReplyDelegate {
 	func didTapReport(origPost: Post, sender: UIButton) {
 		if Auth.auth().currentUser!.uid == origPost.userId {
