@@ -17,6 +17,8 @@ class PersistenceManager {
 		static let dislikedPosts = "DislikedPosts"
 		static let blockedUsers = "BlockedUsers"
 		static let hiddenPosts = "HiddenPosts"
+		static let launches = "Launches"
+		static let lastVersion = "LastVersion"
 	}
 	
 	func blockUser(user: String) {
@@ -84,6 +86,30 @@ class PersistenceManager {
 			UserDefaults.standard.set([post], forKey: Keys.hiddenPosts)
         }
     }
+	
+	func shouldRequestReview() -> Bool {
+		var launches = UserDefaults.standard.integer(forKey: Keys.launches)
+		launches += 1
+		UserDefaults.standard.set(launches, forKey: Keys.launches)
+		
+		if launches % 7 == 0 && launches != 0 {
+			if let currentVersion = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String {
+				let lastVersion = lastVersionAsk()
+				if lastVersion != currentVersion {
+					UserDefaults.standard.set(currentVersion, forKey: Keys.lastVersion)
+					return true
+				}
+			}
+		}
+		return false
+	}
+	
+	func lastVersionAsk() -> String {
+		if let lastVersion = UserDefaults.standard.string(forKey: Keys.lastVersion) {
+			return lastVersion
+		}
+		return ""
+	}
     
     func fetchBlockedUsers() -> [String] {
 		if let blockedUsers = UserDefaults.standard.stringArray(forKey: Keys.blockedUsers) {

@@ -29,10 +29,11 @@ class NewPostVC: HADataLoadingVC, GADInterstitialDelegate {
 		interstitial = createAndLoadInterstitial()
     }
 	
-	override func viewDidAppear(_ animated: Bool) {
-		super.viewDidAppear(animated)
+	override func viewWillAppear(_ animated: Bool) {
+		super.viewWillAppear(animated)
 		
 		profileButton.isUserInteractionEnabled = true
+		runAnimations()
 	}
     
     private func configureViewController() {
@@ -123,6 +124,16 @@ class NewPostVC: HADataLoadingVC, GADInterstitialDelegate {
 				}
             }
         }
+	}
+	
+	func runAnimations() {
+		categoryTextField.animate()
+		contentTextView.animate()
+		
+		profileButton.alpha = 0
+		UIView.animate(withDuration: 1) {
+			self.profileButton.alpha = 1
+		}
 	}
 	
 	func createAndLoadInterstitial() -> GADInterstitial {

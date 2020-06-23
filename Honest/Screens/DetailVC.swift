@@ -15,10 +15,14 @@ class DetailVC: HADataLoadingVC {
 	var refresher = UIRefreshControl()
 	var bannerView: GADBannerView!
 	
+	var scrollOffset: CGFloat = 0
+	var scrollingDown = true
+	
 	var post: Post!
 	var replies: [Reply] = [] {
 		didSet {
 			DispatchQueue.main.async {
+				self.scrollingDown = true
 				self.collectionView.reloadData()
 			}
 		}
@@ -127,6 +131,27 @@ extension DetailVC: UICollectionViewDelegate, UICollectionViewDataSource {
 			let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ReplyCell.reuseID, for: indexPath) as! ReplyCell
 			cell.set(reply: replies[indexPath.item - 1])
 			return cell
+		}
+	}
+	
+	func scrollViewDidScroll(_ scrollView: UIScrollView) {
+		if scrollOffset < scrollView.contentOffset.y {
+			scrollingDown = true
+		} else {
+			scrollingDown = false
+		}
+		scrollOffset = scrollView.contentOffset.y
+	}
+	
+	func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+		if scrollingDown {
+			cell.alpha = 0
+			cell.transform = CGAffineTransform(translationX: collectionView.frame.width / 1.5, y: 0)
+			
+			UIView.animate(withDuration: 1.3, delay: 0.2 * Double(indexPath.row), options: .curveEaseInOut, animations: {
+				cell.transform = .identity
+				cell.alpha = 1
+			})
 		}
 	}
 }

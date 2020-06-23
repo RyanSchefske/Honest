@@ -29,10 +29,11 @@ class NewReplyVC: HADataLoadingVC, GADInterstitialDelegate {
 		interstitial = createAndLoadInterstitial()
     }
 	
-	override func viewDidAppear(_ animated: Bool) {
-		super.viewDidAppear(animated)
+	override func viewWillAppear(_ animated: Bool) {
+		super.viewWillAppear(animated)
 		
 		profileButton.isUserInteractionEnabled = true
+		runAnimations()
 	}
 	
 	init(origPostId: String, userId: String) {
@@ -137,5 +138,15 @@ class NewReplyVC: HADataLoadingVC, GADInterstitialDelegate {
 	
 	func interstitialDidDismissScreen(_ ad: GADInterstitial) {
 		interstitial = createAndLoadInterstitial()
+	}
+	
+	func runAnimations() {
+		categoryTextField.animate()
+		contentTextView.animate()
+		
+		profileButton.alpha = 0
+		UIView.animate(withDuration: 1) {
+			self.profileButton.alpha = 1
+		}
 	}
 }

@@ -85,16 +85,14 @@ extension DetailVC: UICollectionViewDelegateFlowLayout {
 extension ProfileVC: UICollectionViewDelegateFlowLayout {
 	
 	func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-		if let post = posts[indexPath.item] as? Post {
-            let approximateWidthOfText = collectionView.frame.width - 105
-            let size = CGSize(width: approximateWidthOfText, height: 1000)
-			let attributes = [NSAttributedString.Key.font: UIFont.preferredFont(forTextStyle: .body).withSize(14)]
-            
-			let estimatedFrame = NSString(string: post.content).boundingRect(with: size, options: .usesLineFragmentOrigin, attributes: attributes, context: nil)
-            
-            return CGSize(width: collectionView.frame.width - 20, height: estimatedFrame.height + 200)
-		} else {
-			return CGSize(width: collectionView.frame.width - 20, height: 200)
-		}
+		
+		let post = posts[indexPath.item]
+		let approximateWidthOfText = collectionView.frame.width - 105
+		let size = CGSize(width: approximateWidthOfText, height: 1000)
+		let attributes = [NSAttributedString.Key.font: UIFont.preferredFont(forTextStyle: .body).withSize(14)]
+		
+		let estimatedFrame = NSString(string: post.content).boundingRect(with: size, options: .usesLineFragmentOrigin, attributes: attributes, context: nil)
+		
+		return CGSize(width: collectionView.frame.width - 20, height: estimatedFrame.height + 200)
 	}
 }

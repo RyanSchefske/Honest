@@ -89,7 +89,7 @@ extension FilterVC: UICollectionViewDelegate, UICollectionViewDataSource, UIColl
 		
 		if !animatedOnce {
 			cell.alpha = 0
-			cell.transform = CGAffineTransform(scaleX: 0, y: 0)
+			cell.transform = CGAffineTransform(scaleX: 0.3, y: 0.3)
 			
 			UIView.animate(withDuration: 1.5, delay: 0, usingSpringWithDamping: 0.75, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
 				cell.alpha = 1

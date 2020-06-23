@@ -9,6 +9,7 @@
 import UIKit
 import FirebaseAuth
 import GoogleMobileAds
+import StoreKit
 
 class HomeVC: HADataLoadingVC {
 	
@@ -50,6 +51,12 @@ class HomeVC: HADataLoadingVC {
 	
 	override func viewWillAppear(_ animated: Bool) {
 		super.viewWillAppear(animated)
+		
+		if PersistenceManager().shouldRequestReview() {
+			DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 1.0) {
+				SKStoreReviewController.requestReview()
+			}
+		}
 		
 		if Auth.auth().currentUser != nil {
 			NetworkManager.shared.updateToken()
@@ -217,7 +224,7 @@ extension HomeVC: UICollectionViewDelegate, UICollectionViewDataSource {
 		if scrollingDown {
 			cell.alpha = 0.5
 			cell.transform = CGAffineTransform(translationX: 0, y: 30)
-			
+
 			UIView.animate(withDuration: 1, delay: 0, options: .curveEaseOut, animations: {
 				cell.alpha = 1
 				cell.transform = CGAffineTransform(translationX: 0, y: 0)

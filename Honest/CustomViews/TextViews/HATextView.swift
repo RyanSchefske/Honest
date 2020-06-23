@@ -30,10 +30,15 @@ class HATextView: UITextView {
 	
 	private func customizeUI() {
 		layer.cornerRadius = 10
+	}
+	
+	func animate() {
+		alpha = 0
+		transform = CGAffineTransform(scaleX: 0.3, y: 0.3)
 		
-//		layer.shadowColor = UIColor.systemGray.cgColor
-//		layer.shadowOpacity = 0.5
-//		layer.shadowRadius = 10
-//		clipsToBounds = false
+		UIView.animate(withDuration: 1, delay: 0, options: .curveEaseInOut, animations: {
+			self.alpha = 1
+			self.transform = CGAffineTransform(scaleX: 1, y: 1)
+		}, completion: nil)
 	}
 }

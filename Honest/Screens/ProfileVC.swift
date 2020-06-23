@@ -16,9 +16,13 @@ class ProfileVC: HADataLoadingVC {
 	var emptyStateLabel = UILabel()
 	var bannerView: GADBannerView!
 	
+	var scrollOffset: CGFloat = 0
+	var scrollingDown: Bool = true
+	
 	var posts: [Post] = [] {
 		didSet {
 			DispatchQueue.main.async {
+				self.scrollingDown = true
 				self.collectionView.reloadData()
 			}
 		}
@@ -120,6 +124,27 @@ extension ProfileVC: UICollectionViewDelegate, UICollectionViewDataSource {
 		let detailVC = DetailVC(post: selectedPost)
 		navigationController?.pushViewController(detailVC, animated: true)
     }
+	
+	func scrollViewDidScroll(_ scrollView: UIScrollView) {
+		if scrollOffset < scrollView.contentOffset.y {
+			scrollingDown = true
+		} else {
+			scrollingDown = false
+		}
+		scrollOffset = scrollView.contentOffset.y
+	}
+	
+	func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+		if scrollingDown {
+			cell.alpha = 0.5
+			cell.transform = CGAffineTransform(translationX: 0, y: 30)
+
+			UIView.animate(withDuration: 1, delay: 0, options: .curveEaseOut, animations: {
+				cell.alpha = 1
+				cell.transform = CGAffineTransform(translationX: 0, y: 0)
+			})
+		}
+	}
 }
 
 extension ProfileVC: GADBannerViewDelegate {

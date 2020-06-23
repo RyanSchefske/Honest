@@ -11,6 +11,7 @@ import UIKit
 class HATextField: UITextField {
 	
 	let categories = ["Life", "Relationship", "Work", "School", "Sports", "Money", "Travel", "Health", "Other"]
+	let bottomLine = UIView()
 
 	override init(frame: CGRect) {
 		super.init(frame: frame)
@@ -36,14 +37,6 @@ class HATextField: UITextField {
     }
 	
 	private func customizeUI() {
-		/*
-		layer.cornerRadius = 10
-		
-		layer.shadowColor = UIColor.systemGray.cgColor
-		layer.shadowOpacity = 0.5
-		layer.shadowRadius = 10
-		clipsToBounds = false */
-		let bottomLine = UIView()
 		bottomLine.backgroundColor = Colors.customBlue
 		bottomLine.translatesAutoresizingMaskIntoConstraints = false
 		addSubview(bottomLine)
@@ -54,6 +47,16 @@ class HATextField: UITextField {
 			bottomLine.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -40),
 			bottomLine.heightAnchor.constraint(equalToConstant: 2)
 		])
+	}
+	
+	func animate() {
+		bottomLine.transform = CGAffineTransform(scaleX: 0, y: 0)
+		self.alpha = 0
+		
+		UIView.animate(withDuration: 1, delay: 0, options: .curveEaseInOut, animations: {
+			self.alpha = 1
+			self.bottomLine.transform = CGAffineTransform(scaleX: 1, y: 1)
+		}, completion: nil)
 	}
 	
 	private func setupPicker() {
