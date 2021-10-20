@@ -11,11 +11,21 @@ import FirebaseFirestore
 import FirebaseAuth
 import GoogleMobileAds
 
-class NewPostVC: HADataLoadingVC, GADInterstitialDelegate {
-	
+class NewPostVC: HADataLoadingVC, UITextViewDelegate, GADInterstitialDelegate {
 	let contentTextView = HATextView(frame: .zero, textContainer: nil)
 	let categoryTextField = HATextField(frame: .zero)
 	let profileButton = UIButton()
+	let charactersRemainingLabel = HACharactersLabel()
+	
+	var charactersRemaining: Int = 1350 {
+		didSet {
+			DispatchQueue.main.async { [self] in
+				self.charactersRemainingLabel.text = "\(self.charactersRemaining)"
+				if self.charactersRemaining >= 0 { self.charactersRemainingLabel.textColor = .secondaryLabel }
+				else { self.charactersRemainingLabel.textColor = .systemRed }
+			}
+		}
+	}
 	
 	var interstitial: GADInterstitial!
 
@@ -39,6 +49,7 @@ class NewPostVC: HADataLoadingVC, GADInterstitialDelegate {
     private func configureViewController() {
         view.backgroundColor = .secondarySystemBackground
         navigationController?.navigationBar.prefersLargeTitles = true
+		contentTextView.delegate = self
 		
 		let tap = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
         view.addGestureRecognizer(tap)
@@ -60,6 +71,9 @@ class NewPostVC: HADataLoadingVC, GADInterstitialDelegate {
 	func layoutConstraints() {
 		view.addSubview(categoryTextField)
 		view.addSubview(contentTextView)
+		view.addSubview(charactersRemainingLabel)
+		
+		charactersRemainingLabel.text = "\(charactersRemaining)"
 		
 		NSLayoutConstraint.activate([
 			categoryTextField.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 10),
@@ -70,7 +84,10 @@ class NewPostVC: HADataLoadingVC, GADInterstitialDelegate {
 			contentTextView.topAnchor.constraint(equalTo: categoryTextField.bottomAnchor, constant: 15),
 			contentTextView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 10),
 			contentTextView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -10),
-			contentTextView.heightAnchor.constraint(equalToConstant: view.frame.height / 3)
+			contentTextView.heightAnchor.constraint(equalToConstant: view.frame.height / 3),
+			
+			charactersRemainingLabel.bottomAnchor.constraint(equalTo: contentTextView.bottomAnchor, constant: 0),
+			charactersRemainingLabel.trailingAnchor.constraint(equalTo: contentTextView.trailingAnchor, constant: -10)
 		])
 	}
 	
@@ -91,39 +108,45 @@ class NewPostVC: HADataLoadingVC, GADInterstitialDelegate {
         showLoadingView()
 		profileButton.isUserInteractionEnabled = false
 		
-		if categoryTextField.text!.isEmpty {
+		defer {
 			self.dismissLoadingView()
 			profileButton.isUserInteractionEnabled = true
+		}
+		
+		if categoryTextField.text!.isEmpty {
 			categoryTextField.shake()
         } else {
 			guard let category = categoryTextField.text else { return }
 			
 			if contentTextView.text.isEmpty {
-				self.dismissLoadingView()
-				profileButton.isUserInteractionEnabled = true
 				profileButton.shake()
 				contentTextView.shake()
             } else {
-				if interstitial.isReady { interstitial.present(fromRootViewController: self) }
+				guard charactersRemaining <= 1350 else {
+					contentTextView.shake()
+					return
+				}
 				
-                let content = ProfanityFilter.cleanUp(contentTextView.text)
-                contentTextView.layer.borderColor = UIColor.lightGray.cgColor
+				if interstitial.isReady && !PersistenceManager.shared.fetchAdFreeVersion() {
+					interstitial.present(fromRootViewController: self)
+				}
+				
+				let content = ProfanityFilter.cleanUp(contentTextView.text)
+				contentTextView.layer.borderColor = UIColor.lightGray.cgColor
 				NetworkManager.shared.postAdvice(content: content, category: category) { (result) in
-					
-					self.dismissLoadingView()
-					
 					switch result {
-					case .success:
-						self.contentTextView.text = ""
-						self.categoryTextField.text = nil
-						self.tabBarController?.selectedIndex = 0
-						
-					case .failure(let error):
-						self.presentHAAlertOnMainThread(title: "Uh-oh", message: error.rawValue, buttonText: "Okay")
+						case .success:
+							self.contentTextView.text = ""
+							self.categoryTextField.text = nil
+							NotificationCenter.default.post(name: .didPostNew, object: nil)
+							self.tabBarController?.selectedIndex = 0
+							
+						case .failure(let error):
+							self.presentHAAlertOnMainThread(title: "Uh-oh", message: error.rawValue, buttonText: "Okay")
 					}
 				}
-            }
-        }
+			}
+		}
 	}
 	
 	func runAnimations() {
@@ -131,8 +154,13 @@ class NewPostVC: HADataLoadingVC, GADInterstitialDelegate {
 		contentTextView.animate()
 		
 		profileButton.alpha = 0
+		charactersRemainingLabel.alpha = 0
 		UIView.animate(withDuration: 1) {
 			self.profileButton.alpha = 1
+		} completion: { completed in
+			UIView.animate(withDuration: 1) {
+				self.charactersRemainingLabel.alpha = 1
+			}
 		}
 	}
 	
@@ -146,4 +174,12 @@ class NewPostVC: HADataLoadingVC, GADInterstitialDelegate {
 	func interstitialDidDismissScreen(_ ad: GADInterstitial) {
 		interstitial = createAndLoadInterstitial()
 	}
+	
+	func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+		let newText = (textView.text as NSString).replacingCharacters(in: range, with: text)
+		let numberOfChars = newText.count
+		charactersRemaining = 1350 - numberOfChars
+		return numberOfChars < 1350
+	}
 }
+ 

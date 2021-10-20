@@ -10,11 +10,12 @@ import UIKit
 
 class HADataLoadingVC: UIViewController {
     
-    var containerView: UIView!
+	var containerView = UIView()
     
     func showLoadingView() {
         containerView = UIView(frame: view.bounds)
         view.addSubview(containerView)
+		containerView.isHidden = false
         
         containerView.backgroundColor = .systemBackground
         containerView.alpha = 0
@@ -36,8 +37,7 @@ class HADataLoadingVC: UIViewController {
     
     func dismissLoadingView() {
         DispatchQueue.main.async {
-            self.containerView.removeFromSuperview()
-            self.containerView = nil
+            self.containerView.isHidden = true
         }
     }
 }

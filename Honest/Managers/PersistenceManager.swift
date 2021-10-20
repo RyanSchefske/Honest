@@ -10,6 +10,7 @@ import Foundation
 
 class PersistenceManager {
 	
+	static let shared = PersistenceManager()
 	static private let defaults = UserDefaults.standard
 	
 	enum Keys {
@@ -19,6 +20,8 @@ class PersistenceManager {
 		static let hiddenPosts = "HiddenPosts"
 		static let launches = "Launches"
 		static let lastVersion = "LastVersion"
+		static let adFree = "AdFree"
+		static let secureProfile = "SecureProfile"
 	}
 	
 	func blockUser(user: String) {
@@ -104,6 +107,16 @@ class PersistenceManager {
 		return false
 	}
 	
+	func shouldRequestPro() -> Bool {
+		if PersistenceManager.shared.fetchAdFreeVersion() { return false }
+		
+		let launches = UserDefaults.standard.integer(forKey: Keys.launches)
+		if launches % 6 == 0 || launches == 3 {
+			return true
+		}
+		return false
+	}
+	
 	func lastVersionAsk() -> String {
 		if let lastVersion = UserDefaults.standard.string(forKey: Keys.lastVersion) {
 			return lastVersion
@@ -138,4 +151,20 @@ class PersistenceManager {
         }
         return []
     }
+	
+	func fetchAdFreeVersion() -> Bool {
+		return UserDefaults.standard.bool(forKey: Keys.adFree)
+	}
+	
+	func setAdFreeVersion(_ bool: Bool) {
+		UserDefaults.standard.set(bool, forKey: Keys.adFree)
+	}
+	
+	func setSecureProfile(_ bool: Bool) {
+		UserDefaults.standard.set(bool, forKey: Keys.secureProfile)
+	}
+	
+	func fetchSecureProfile() -> Bool {
+		return UserDefaults.standard.bool(forKey: Keys.secureProfile)
+	}
 }

@@ -129,7 +129,6 @@ class SignInVC: UIViewController {
 extension SignInVC: FUIAuthDelegate {
     func authUI(_ authUI: FUIAuth, didSignInWith authDataResult: AuthDataResult?, error: Error?) {
         if error != nil {
-            print(error)
         } else {
             self.navigationController?.popViewController(animated: true)
         }

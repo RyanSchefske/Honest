@@ -32,6 +32,15 @@ enum SFSymbols {
 	
 	//Settings image
 	static let settings = UIImage(systemName: "gear")
+	static let adFree = UIImage(systemName: "gift.fill")?.withRenderingMode(.alwaysOriginal).withTintColor(Colors.customBlue)
+	static let privacy = UIImage(systemName: "lock.fill")?.withRenderingMode(.alwaysOriginal).withTintColor(.systemYellow)
+	static let signOut = UIImage(systemName: "stop.fill")?.withRenderingMode(.alwaysOriginal).withTintColor(.systemRed)
+	static let app = UIImage(systemName: "app.badge.fill")?.withRenderingMode(.alwaysOriginal).withTintColor(.systemPurple)
+	static let money = UIImage(systemName: "dollarsign.circle.fill")?.withRenderingMode(.alwaysOriginal).withTintColor(.systemGreen)
+	static let share = UIImage(systemName: "square.and.arrow.up.fill")?.withRenderingMode(.alwaysOriginal).withTintColor(.systemGray)
+	static let heart = UIImage(systemName: "heart.fill")?.withRenderingMode(.alwaysOriginal).withTintColor(.systemPink)
+	static let delete = UIImage(systemName: "delete.right.fill")?.withRenderingMode(.alwaysOriginal).withTintColor(.systemRed)
+	static let faceId = UIImage(systemName: "faceid")?.withRenderingMode(.alwaysOriginal).withTintColor(Colors.customBlue)
 }
 
 enum FilterImages {
@@ -45,6 +54,12 @@ enum FilterImages {
 	static let healthFilter = UIImage(named: "health")
 	static let otherFilter = UIImage(named: "other")
 	static let lightbulb = UIImage(named: "lightbulb")
+	static let female = UIImage(named: "female")
+	static let male = UIImage(named: "male")
+	static let friendship = UIImage(named: "friends")
+	static let adulting = UIImage(named: "adulting")
+	static let beauty = UIImage(named: "beauty")
+	static let mentalHealth = UIImage(named: "mentalHealth")
 }
 
 enum Colors {
@@ -76,4 +91,8 @@ enum DeviceTypes {
     static func isiPhoneXAspectRatio() -> Bool {
         return isiPhoneX || isiPhoneXsMaxAndXr
     }
+}
+
+enum TipHelper {
+	static let thankYou = "Thank you for using Honest!\n\nI hope that you are enjoying the app, and any feedback is always welcome.\n\nAs an independent developer with a full time job, all development for this app is done in my free time.\n\nTherefore, if you're enjoying the app and would like to continue to see new updates and features, I would greatly appreciate it!\n\nThank you!"
 }

@@ -13,10 +13,12 @@ class DetailVC: HADataLoadingVC {
 	
 	var collectionView: UICollectionView!
 	var refresher = UIRefreshControl()
-	var bannerView: GADBannerView!
+	var bannerView = GADBannerView()
 	
 	var scrollOffset: CGFloat = 0
 	var scrollingDown = true
+	
+	var adFreeUser: Bool = false
 	
 	var post: Post!
 	var replies: [Reply] = [] {
@@ -37,6 +39,21 @@ class DetailVC: HADataLoadingVC {
 		getReplies(postId: post.postId)
 		configureBannerView()
     }
+	
+	override func viewWillAppear(_ animated: Bool) {
+		super.viewWillAppear(animated)
+		
+		collectionView.alpha = 0
+		adFreeUser = PersistenceManager.shared.fetchAdFreeVersion()
+		if adFreeUser { bannerView.isHidden = true }
+		NotificationCenter.default.addObserver(self, selector: #selector(onDidPostReply(_:)), name: .didPostReply, object: nil)
+	}
+	
+	override func viewDidAppear(_ animated: Bool) {
+		super.viewDidAppear(animated)
+		
+		collectionView.alpha = 1
+	}
 	
 	init(post: Post) {
         super.init(nibName: nil, bundle: nil)
@@ -111,6 +128,10 @@ class DetailVC: HADataLoadingVC {
 			bannerView.centerXAnchor.constraint(equalTo: view.centerXAnchor)
 		])
 	}
+	
+	@objc func onDidPostReply(_ notification: Notification) {
+		reloadData()
+	}
 }
 
 extension DetailVC: UICollectionViewDelegate, UICollectionViewDataSource {
@@ -146,9 +167,9 @@ extension DetailVC: UICollectionViewDelegate, UICollectionViewDataSource {
 	func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
 		if scrollingDown {
 			cell.alpha = 0
-			cell.transform = CGAffineTransform(translationX: collectionView.frame.width / 1.5, y: 0)
+			cell.transform = CGAffineTransform(translationX: collectionView.frame.width / 4, y: 0)
 			
-			UIView.animate(withDuration: 1.3, delay: 0.2 * Double(indexPath.row), options: .curveEaseInOut, animations: {
+			UIView.animate(withDuration: 1, delay: 0.15 * Double(indexPath.row), options: [.curveEaseInOut, .allowUserInteraction], animations: {
 				cell.transform = .identity
 				cell.alpha = 1
 			})

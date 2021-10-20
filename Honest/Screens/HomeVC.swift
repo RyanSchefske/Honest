@@ -26,7 +26,9 @@ class HomeVC: HADataLoadingVC {
 	var scrollingDown = true // Start true so initial cells animate
 	
 	weak var replyDelegate: ReplyDelegate!
-	var bannerView: GADBannerView!
+	var bannerView = GADBannerView()
+	
+	var adFreeUser: Bool = false
 	
 	var posts: [Post] = [] {
 		didSet {
@@ -52,11 +54,22 @@ class HomeVC: HADataLoadingVC {
 	override func viewWillAppear(_ animated: Bool) {
 		super.viewWillAppear(animated)
 		
+		adFreeUser = PersistenceManager.shared.fetchAdFreeVersion()
+		if adFreeUser {
+			bannerView.isHidden = true
+		}
+		
 		if PersistenceManager().shouldRequestReview() {
 			DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 1.0) {
 				SKStoreReviewController.requestReview()
 			}
 		}
+		
+		if PersistenceManager().shouldRequestPro() {
+			presentAdFreeAlert()
+		}
+		
+		NotificationCenter.default.addObserver(self, selector: #selector(onDidPostNew(_:)), name: .didPostNew, object: nil)
 		
 		if Auth.auth().currentUser != nil {
 			NetworkManager.shared.updateToken()
@@ -179,6 +192,10 @@ class HomeVC: HADataLoadingVC {
 	@objc func filterTapped() {
 		navigationController?.pushViewController(FilterVC(), animated: true)
 	}
+	
+	@objc func onDidPostNew(_ notification: Notification) {
+		reloadData()
+	}
 }
 
 extension HomeVC: UICollectionViewDelegate, UICollectionViewDataSource {
@@ -225,7 +242,7 @@ extension HomeVC: UICollectionViewDelegate, UICollectionViewDataSource {
 			cell.alpha = 0.5
 			cell.transform = CGAffineTransform(translationX: 0, y: 30)
 
-			UIView.animate(withDuration: 1, delay: 0, options: .curveEaseOut, animations: {
+			UIView.animate(withDuration: 1, delay: 0, options: [.curveEaseOut, .allowUserInteraction], animations: {
 				cell.alpha = 1
 				cell.transform = CGAffineTransform(translationX: 0, y: 0)
 			})

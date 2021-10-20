@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3D3A6E6424CE3CA700F8172B /* HAAdFreeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D3A6E6324CE3CA700F8172B /* HAAdFreeVC.swift */; };
+		3D3A6E6624CE7B0A00F8172B /* IAPManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D3A6E6524CE7B0A00F8172B /* IAPManager.swift */; };
+		3D3D9B2324EB68CB008F3A95 /* TipVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D3D9B2224EB68CB008F3A95 /* TipVC.swift */; };
 		3D3FC90224216ADF006BF92F /* PushNotifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D3FC90124216ADF006BF92F /* PushNotifications.swift */; };
 		3D51DE3A2400B842006644DA /* UIViewController+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D51DE392400B842006644DA /* UIViewController+Ext.swift */; };
 		3D51DE3C2400BCD7006644DA /* UIHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D51DE3B2400BCD7006644DA /* UIHelper.swift */; };
@@ -19,6 +22,7 @@
 		3D54AB3F24132E4F0087CDC0 /* HATextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D54AB3E24132E4F0087CDC0 /* HATextField.swift */; };
 		3D54AB4124133BB50087CDC0 /* SignInVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D54AB4024133BB50087CDC0 /* SignInVC.swift */; };
 		3D54AB4324133C170087CDC0 /* Censor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D54AB4224133C170087CDC0 /* Censor.swift */; };
+		3D55160B24CFA1AF001D5B1A /* AdFreeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D55160A24CFA1AF001D5B1A /* AdFreeVC.swift */; };
 		3D5EE6F6246C5A730077E783 /* FilterResultsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D5EE6F5246C5A730077E783 /* FilterResultsVC.swift */; };
 		3D6BE2232400691900862AA7 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D6BE2222400691900862AA7 /* AppDelegate.swift */; };
 		3D6BE2252400691900862AA7 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D6BE2242400691900862AA7 /* SceneDelegate.swift */; };
@@ -39,12 +43,15 @@
 		3D8A2D66247097730005ACA1 /* UITextField+Anim.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D8A2D65247097730005ACA1 /* UITextField+Anim.swift */; };
 		3DA03DE62467478F0054AE4E /* FilterVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DA03DE52467478F0054AE4E /* FilterVC.swift */; };
 		3DA03DE8246749FE0054AE4E /* FilterCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DA03DE7246749FE0054AE4E /* FilterCell.swift */; };
+		3DB89622252413D6007CBA29 /* HACharactersLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DB89621252413D6007CBA29 /* HACharactersLabel.swift */; };
 		3DDD3368241310770060159C /* DetailVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DDD3367241310770060159C /* DetailVC.swift */; };
 		3DDD336B241313DF0060159C /* HATextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DDD336A241313DF0060159C /* HATextView.swift */; };
 		3DDF395B2419B268006FD727 /* Delegates.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DDF395A2419B267006FD727 /* Delegates.swift */; };
 		3DDF395D2419B929006FD727 /* Alert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DDF395C2419B929006FD727 /* Alert.swift */; };
 		3DDF3960241D4AB3006FD727 /* UIButton+Anim.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DDF395F241D4AB3006FD727 /* UIButton+Anim.swift */; };
 		3DDF3962241EDEC0006FD727 /* SettingsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DDF3961241EDEC0006FD727 /* SettingsVC.swift */; };
+		3DF1F19D24E4CEF2009FD6E4 /* NotificationCenterManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DF1F19C24E4CEF2009FD6E4 /* NotificationCenterManager.swift */; };
+		3DF612FC24D996CE002A1260 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3DF612FB24D996CE002A1260 /* StoreKit.framework */; };
 		3DFBAC3C24007BB2000956CB /* ProfileVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DFBAC3B24007BB2000956CB /* ProfileVC.swift */; };
 		3DFBAC3E24007D72000956CB /* NewPostVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DFBAC3D24007D72000956CB /* NewPostVC.swift */; };
 		3DFBAC412400804A000956CB /* FeedCV.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DFBAC402400804A000956CB /* FeedCV.swift */; };
@@ -61,6 +68,9 @@
 
 /* Begin PBXFileReference section */
 		21D0676708D920B477D23534 /* Pods-Honest.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Honest.release.xcconfig"; path = "Target Support Files/Pods-Honest/Pods-Honest.release.xcconfig"; sourceTree = "<group>"; };
+		3D3A6E6324CE3CA700F8172B /* HAAdFreeVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HAAdFreeVC.swift; sourceTree = "<group>"; };
+		3D3A6E6524CE7B0A00F8172B /* IAPManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IAPManager.swift; sourceTree = "<group>"; };
+		3D3D9B2224EB68CB008F3A95 /* TipVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TipVC.swift; sourceTree = "<group>"; };
 		3D3FC90124216ADF006BF92F /* PushNotifications.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushNotifications.swift; sourceTree = "<group>"; };
 		3D3FC903242173D5006BF92F /* Honest.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Honest.entitlements; sourceTree = "<group>"; };
 		3D51DE392400B842006644DA /* UIViewController+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Ext.swift"; sourceTree = "<group>"; };
@@ -74,6 +84,7 @@
 		3D54AB3E24132E4F0087CDC0 /* HATextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HATextField.swift; sourceTree = "<group>"; };
 		3D54AB4024133BB50087CDC0 /* SignInVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInVC.swift; sourceTree = "<group>"; };
 		3D54AB4224133C170087CDC0 /* Censor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Censor.swift; sourceTree = "<group>"; };
+		3D55160A24CFA1AF001D5B1A /* AdFreeVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdFreeVC.swift; sourceTree = "<group>"; };
 		3D5EE6F5246C5A730077E783 /* FilterResultsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterResultsVC.swift; sourceTree = "<group>"; };
 		3D6BE21F2400691900862AA7 /* Honest.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Honest.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3D6BE2222400691900862AA7 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -96,12 +107,15 @@
 		3D8A2D65247097730005ACA1 /* UITextField+Anim.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITextField+Anim.swift"; sourceTree = "<group>"; };
 		3DA03DE52467478F0054AE4E /* FilterVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterVC.swift; sourceTree = "<group>"; };
 		3DA03DE7246749FE0054AE4E /* FilterCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterCell.swift; sourceTree = "<group>"; };
+		3DB89621252413D6007CBA29 /* HACharactersLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HACharactersLabel.swift; sourceTree = "<group>"; };
 		3DDD3367241310770060159C /* DetailVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailVC.swift; sourceTree = "<group>"; };
 		3DDD336A241313DF0060159C /* HATextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HATextView.swift; sourceTree = "<group>"; };
 		3DDF395A2419B267006FD727 /* Delegates.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Delegates.swift; sourceTree = "<group>"; };
 		3DDF395C2419B929006FD727 /* Alert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Alert.swift; sourceTree = "<group>"; };
 		3DDF395F241D4AB3006FD727 /* UIButton+Anim.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIButton+Anim.swift"; sourceTree = "<group>"; };
 		3DDF3961241EDEC0006FD727 /* SettingsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsVC.swift; sourceTree = "<group>"; };
+		3DF1F19C24E4CEF2009FD6E4 /* NotificationCenterManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationCenterManager.swift; sourceTree = "<group>"; };
+		3DF612FB24D996CE002A1260 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		3DFBAC3B24007BB2000956CB /* ProfileVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileVC.swift; sourceTree = "<group>"; };
 		3DFBAC3D24007D72000956CB /* NewPostVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewPostVC.swift; sourceTree = "<group>"; };
 		3DFBAC402400804A000956CB /* FeedCV.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedCV.swift; sourceTree = "<group>"; };
@@ -123,6 +137,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				FA8B099E0B09F4DC6702EC8D /* Pods_Honest.framework in Frameworks */,
+				3DF612FC24D996CE002A1260 /* StoreKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -132,6 +147,7 @@
 		19829BBFE5BCEF8742163B52 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				3DF612FB24D996CE002A1260 /* StoreKit.framework */,
 				9B18D5012A615DE381F05230 /* Pods_Honest.framework */,
 			);
 			name = Frameworks;
@@ -177,9 +193,9 @@
 				3D3FC903242173D5006BF92F /* Honest.entitlements */,
 				3DFBAC3A240077EC000956CB /* Screens */,
 				3D793E7E240361A200BB018C /* Managers */,
-				3D6BE23B2400744200862AA7 /* Utilities */,
 				3D793E832403641A00BB018C /* Model */,
 				3D6BE2372400728C00862AA7 /* CustomViews */,
+				3D6BE23B2400744200862AA7 /* Utilities */,
 				3DDF395E241D4A92006FD727 /* Animations */,
 				3DFBAC552400B664000956CB /* Extensions */,
 				3D6BE2362400696000862AA7 /* Support */,
@@ -243,7 +259,9 @@
 			isa = PBXGroup;
 			children = (
 				3D793E7F240361B900BB018C /* NetworkManager.swift */,
+				3DF1F19C24E4CEF2009FD6E4 /* NotificationCenterManager.swift */,
 				3D793E812403639E00BB018C /* PersistenceManager.swift */,
+				3D3A6E6524CE7B0A00F8172B /* IAPManager.swift */,
 			);
 			path = Managers;
 			sourceTree = "<group>";
@@ -286,6 +304,8 @@
 				3D82E6EC2415E9F400C13BC1 /* NewReplyVC.swift */,
 				3DFBAC3B24007BB2000956CB /* ProfileVC.swift */,
 				3DDF3961241EDEC0006FD727 /* SettingsVC.swift */,
+				3D55160A24CFA1AF001D5B1A /* AdFreeVC.swift */,
+				3D3D9B2224EB68CB008F3A95 /* TipVC.swift */,
 			);
 			path = Screens;
 			sourceTree = "<group>";
@@ -314,6 +334,7 @@
 			children = (
 				3DFBAC46240084CD000956CB /* HADataLoadingVC.swift */,
 				3DFBAC4B2400B516000956CB /* HAAlertVC.swift */,
+				3D3A6E6324CE3CA700F8172B /* HAAdFreeVC.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -334,6 +355,7 @@
 				3DFBAC4E2400B545000956CB /* HATitleLabel.swift */,
 				3D51DE422400C852006644DA /* HASubtitleLabel.swift */,
 				3DFBAC502400B583000956CB /* HABodyLabel.swift */,
+				3DB89621252413D6007CBA29 /* HACharactersLabel.swift */,
 			);
 			path = Labels;
 			sourceTree = "<group>";
@@ -499,6 +521,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3D3A6E6624CE7B0A00F8172B /* IAPManager.swift in Sources */,
+				3DF1F19D24E4CEF2009FD6E4 /* NotificationCenterManager.swift in Sources */,
 				3DFBAC572400B673000956CB /* UIView+Ext.swift in Sources */,
 				3DFBAC3C24007BB2000956CB /* ProfileVC.swift in Sources */,
 				3D51DE3A2400B842006644DA /* UIViewController+Ext.swift in Sources */,
@@ -509,16 +533,19 @@
 				3D82E6EB2415DE6A00C13BC1 /* ReplyCell.swift in Sources */,
 				3D793E822403639E00BB018C /* PersistenceManager.swift in Sources */,
 				3D793E872403647200BB018C /* Reply.swift in Sources */,
+				3D3A6E6424CE3CA700F8172B /* HAAdFreeVC.swift in Sources */,
 				3D6BE23E2400745500862AA7 /* Constants.swift in Sources */,
 				3D51DE3C2400BCD7006644DA /* UIHelper.swift in Sources */,
 				3DFBAC47240084CD000956CB /* HADataLoadingVC.swift in Sources */,
 				3DA03DE8246749FE0054AE4E /* FilterCell.swift in Sources */,
 				3DFBAC412400804A000956CB /* FeedCV.swift in Sources */,
 				3D3FC90224216ADF006BF92F /* PushNotifications.swift in Sources */,
+				3D3D9B2324EB68CB008F3A95 /* TipVC.swift in Sources */,
 				3D6BE23A240072EF00862AA7 /* HATabBarController.swift in Sources */,
 				3D793E8924036DF800BB018C /* HAError.swift in Sources */,
 				3DDF3960241D4AB3006FD727 /* UIButton+Anim.swift in Sources */,
 				3D51DE452400CD4D006644DA /* HAPostButtonView.swift in Sources */,
+				3D55160B24CFA1AF001D5B1A /* AdFreeVC.swift in Sources */,
 				3D84FD8C242025BB00C8E2BB /* NativeAdCell.swift in Sources */,
 				3D6BE2272400691900862AA7 /* HomeVC.swift in Sources */,
 				3D51DE492400D6ED006644DA /* HAPostActionButton.swift in Sources */,
@@ -541,6 +568,7 @@
 				3D82E6ED2415E9F400C13BC1 /* NewReplyVC.swift in Sources */,
 				3D793E80240361B900BB018C /* NetworkManager.swift in Sources */,
 				3D793E852403642E00BB018C /* Post.swift in Sources */,
+				3DB89622252413D6007CBA29 /* HACharactersLabel.swift in Sources */,
 				3DFBAC3E24007D72000956CB /* NewPostVC.swift in Sources */,
 				3D54AB3F24132E4F0087CDC0 /* HATextField.swift in Sources */,
 				3D5EE6F6246C5A730077E783 /* FilterResultsVC.swift in Sources */,
@@ -686,12 +714,12 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 3LN4LFZD99;
 				INFOPLIST_FILE = Honest/Support/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.3;
+				MARKETING_VERSION = 2.6;
 				PRODUCT_BUNDLE_IDENTIFIER = com.ryanschefske.Advice;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -709,12 +737,12 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 3LN4LFZD99;
 				INFOPLIST_FILE = Honest/Support/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.3;
+				MARKETING_VERSION = 2.6;
 				PRODUCT_BUNDLE_IDENTIFIER = com.ryanschefske.Advice;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;

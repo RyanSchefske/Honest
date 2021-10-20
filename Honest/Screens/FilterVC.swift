@@ -12,10 +12,11 @@ import GoogleMobileAds
 class FilterVC: UIViewController {
 	
 	var animatedOnce = false
-	var bannerView: GADBannerView!
+	var adFreeUser: Bool = false
+	var bannerView = GADBannerView()
 	var collectionView: UICollectionView!
-	let categories = ["Life", "Relationship", "Work", "School", "Sports", "Money", "Travel", "Health", "Other"]
-	let symbols: [UIImage?] = [FilterImages.lifeFilter, FilterImages.relationshipFilter, FilterImages.workFilter, FilterImages.schoolFilter, FilterImages.sportsFilter, FilterImages.moneyFilter, FilterImages.travelFilter, FilterImages.healthFilter, FilterImages.otherFilter]
+	let categories = ["Life", "Relationship", "Friendship", "For the Girls", "For the Boys", "Beauty", "Work", "Adulting", "School", "Sports", "Money", "Travel", "Health", "Mental Health", "Other"]
+	let symbols: [UIImage?] = [FilterImages.lifeFilter, FilterImages.relationshipFilter, FilterImages.friendship, FilterImages.female, FilterImages.male, FilterImages.beauty, FilterImages.workFilter, FilterImages.adulting, FilterImages.schoolFilter, FilterImages.sportsFilter, FilterImages.moneyFilter, FilterImages.travelFilter, FilterImages.healthFilter, FilterImages.mentalHealth, FilterImages.otherFilter]
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -24,6 +25,13 @@ class FilterVC: UIViewController {
 		configureCollectionView()
 		configureBannerView()
     }
+	
+	override func viewWillAppear(_ animated: Bool) {
+		super.viewWillAppear(animated)
+		
+		adFreeUser = PersistenceManager.shared.fetchAdFreeVersion()
+		if adFreeUser { bannerView.isHidden = true }
+	}
 	
 	private func configureViewController() {
 		title = "Filters"

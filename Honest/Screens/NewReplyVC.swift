@@ -9,13 +9,24 @@
 import UIKit
 import GoogleMobileAds
 
-class NewReplyVC: HADataLoadingVC, GADInterstitialDelegate {
+class NewReplyVC: HADataLoadingVC, UITextViewDelegate, GADInterstitialDelegate {
 	
 	let categoryTextField = HATextField(frame: .zero)
 	let contentTextView = HATextView(frame: .zero, textContainer: nil)
 	var originalPostId: String!
 	var userId: String!
 	let profileButton = UIButton()
+	let charactersRemainingLabel = HACharactersLabel()
+	
+	var charactersRemaining: Int = 1350 {
+		didSet {
+			DispatchQueue.main.async { [self] in
+				self.charactersRemainingLabel.text = "\(self.charactersRemaining)"
+				if self.charactersRemaining >= 0 { self.charactersRemainingLabel.textColor = .secondaryLabel }
+				else { self.charactersRemainingLabel.textColor = .systemRed }
+			}
+		}
+	}
 	
 	var interstitial: GADInterstitial!
 
@@ -51,6 +62,7 @@ class NewReplyVC: HADataLoadingVC, GADInterstitialDelegate {
 		title = "New Reply"
 		view.backgroundColor = .secondarySystemBackground
         navigationController?.navigationBar.prefersLargeTitles = true
+		contentTextView.delegate = self
 		
 		let tap = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
         view.addGestureRecognizer(tap)
@@ -73,7 +85,9 @@ class NewReplyVC: HADataLoadingVC, GADInterstitialDelegate {
 	@objc func dismissKeyboard() { view.endEditing(true) }
 	
 	func layoutConstraints() {
-		view.addSubviews(categoryTextField, contentTextView)
+		view.addSubviews(categoryTextField, contentTextView, charactersRemainingLabel)
+		
+		charactersRemainingLabel.text = "\(charactersRemaining)"
 		
 		NSLayoutConstraint.activate([
 			categoryTextField.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 10),
@@ -84,7 +98,10 @@ class NewReplyVC: HADataLoadingVC, GADInterstitialDelegate {
 			contentTextView.topAnchor.constraint(equalTo: categoryTextField.bottomAnchor, constant: 15),
 			contentTextView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 10),
 			contentTextView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -10),
-			contentTextView.heightAnchor.constraint(equalToConstant: view.frame.height / 3)
+			contentTextView.heightAnchor.constraint(equalToConstant: view.frame.height / 3),
+			
+			charactersRemainingLabel.bottomAnchor.constraint(equalTo: contentTextView.bottomAnchor, constant: 0),
+			charactersRemainingLabel.trailingAnchor.constraint(equalTo: contentTextView.trailingAnchor, constant: -10)
 		])
 	}
 	
@@ -105,21 +122,29 @@ class NewReplyVC: HADataLoadingVC, GADInterstitialDelegate {
 		sendReplyNotification(to: userId)
 		profileButton.isUserInteractionEnabled = false
 		
-		if contentTextView.text.isEmpty {
+		defer {
 			dismissLoadingView()
+			profileButton.isUserInteractionEnabled = true
+		}
+		
+		if contentTextView.text.isEmpty {
 			profileButton.shake()
 			contentTextView.shake()
-			profileButton.isUserInteractionEnabled = true
 		} else {
-			if interstitial.isReady { interstitial.present(fromRootViewController: self) }
+			guard charactersRemaining <= 1350 else {
+				contentTextView.shake()
+				return
+			}
+			
+			if interstitial.isReady && !PersistenceManager.shared.fetchAdFreeVersion() {
+				interstitial.present(fromRootViewController: self)
+			}
 			
 			let content = ProfanityFilter.cleanUp(contentTextView.text)
 			NetworkManager.shared.postReply(origPostId: originalPostId, content: content) { (result) in
-				
-				self.dismissLoadingView()
-				
 				switch result {
 				case .success:
+					NotificationCenter.default.post(name: .didPostReply, object: nil)
 					self.navigationController?.popViewController(animated: true)
 					
 				case .failure(let error):
@@ -145,8 +170,20 @@ class NewReplyVC: HADataLoadingVC, GADInterstitialDelegate {
 		contentTextView.animate()
 		
 		profileButton.alpha = 0
+		charactersRemainingLabel.alpha = 0
 		UIView.animate(withDuration: 1) {
 			self.profileButton.alpha = 1
+		} completion: { completed in
+			UIView.animate(withDuration: 1) {
+				self.charactersRemainingLabel.alpha = 1
+			}
 		}
+	}
+	
+	func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+		let newText = (textView.text as NSString).replacingCharacters(in: range, with: text)
+		let numberOfChars = newText.count
+		charactersRemaining = 1350 - numberOfChars
+		return numberOfChars < 1350
 	}
 }

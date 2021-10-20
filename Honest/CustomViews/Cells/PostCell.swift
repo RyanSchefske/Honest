@@ -53,6 +53,18 @@ class PostCell: UICollectionViewCell {
 			postContentView.avatarIV.image = FilterImages.healthFilter
 		} else if post.category == "Other" {
 			postContentView.avatarIV.image = FilterImages.otherFilter
+		} else if post.category == "Adulting" {
+			postContentView.avatarIV.image = FilterImages.adulting
+		} else if post.category == "Mental Health" {
+			postContentView.avatarIV.image = FilterImages.mentalHealth
+		} else if post.category == "For the Boys" {
+			postContentView.avatarIV.image = FilterImages.male
+		} else if post.category == "For the Girls" {
+			postContentView.avatarIV.image = FilterImages.female
+		} else if post.category == "Friendship" {
+			postContentView.avatarIV.image = FilterImages.friendship
+		} else if post.category == "Beauty" {
+			postContentView.avatarIV.image = FilterImages.beauty
 		} else {
 			postContentView.avatarIV.image = FilterImages.lightbulb
 		}

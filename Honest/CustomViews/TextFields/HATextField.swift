@@ -10,7 +10,7 @@ import UIKit
 
 class HATextField: UITextField {
 	
-	let categories = ["Life", "Relationship", "Work", "School", "Sports", "Money", "Travel", "Health", "Other"]
+	let categories = ["Life", "Relationship", "Friendship", "For the Girls", "For the Boys", "Beauty", "Work", "Adulting", "School", "Sports", "Money", "Travel", "Health", "Mental Health", "Other"]
 	let bottomLine = UIView()
 
 	override init(frame: CGRect) {

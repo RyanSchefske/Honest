@@ -18,4 +18,13 @@ extension UIViewController {
             self.present(alertVC, animated: true)
         }
     }
+	
+	func presentAdFreeAlert() {
+		DispatchQueue.main.async {
+			let adFreeAlert = HAAdFreeVC(title: "Ad Free!", message: "Try out the ad free version of Honest!")
+			adFreeAlert.modalPresentationStyle = .overFullScreen
+			adFreeAlert.modalTransitionStyle = .crossDissolve
+			self.present(adFreeAlert, animated: true)
+		}
+	}
 }

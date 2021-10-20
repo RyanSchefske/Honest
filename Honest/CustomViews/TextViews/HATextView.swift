@@ -9,7 +9,6 @@
 import UIKit
 
 class HATextView: UITextView {
-	
 	override init(frame: CGRect, textContainer: NSTextContainer?) {
 		super.init(frame: frame, textContainer: textContainer)
 		

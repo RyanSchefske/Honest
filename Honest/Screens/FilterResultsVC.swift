@@ -23,7 +23,7 @@ class FilterResultsVC: HADataLoadingVC {
 	var signInNeeded = false
 	weak var replyDelegate: ReplyDelegate!
 	
-	var bannerView: GADBannerView!
+	var bannerView = GADBannerView()
 	
 	var posts: [Post] = [] {
 		didSet {

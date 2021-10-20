@@ -8,16 +8,19 @@
 
 import UIKit
 import GoogleMobileAds
+import LocalAuthentication
 
 class ProfileVC: HADataLoadingVC {
 	
 	var collectionView: UICollectionView!
 	var refresher = UIRefreshControl()
 	var emptyStateLabel = UILabel()
-	var bannerView: GADBannerView!
+	var bannerView = GADBannerView()
+	var bgView = UIView()
 	
 	var scrollOffset: CGFloat = 0
 	var scrollingDown: Bool = true
+	var adFreeUser: Bool = false
 	
 	var posts: [Post] = [] {
 		didSet {
@@ -37,6 +40,13 @@ class ProfileVC: HADataLoadingVC {
 		configurePullToRefresh()
 		configureBannerView()
     }
+	
+	override func viewWillAppear(_ animated: Bool) {
+		super.viewWillAppear(animated)
+		
+		adFreeUser = PersistenceManager.shared.fetchAdFreeVersion()
+		if PersistenceManager.shared.fetchSecureProfile() { self.authenticate() }
+	}
     
     private func configureViewController() {
         view.backgroundColor = .secondarySystemBackground
@@ -68,6 +78,77 @@ class ProfileVC: HADataLoadingVC {
 				self.posts.append(contentsOf: posts)
 			case .failure(let error):
 				self.presentHAAlertOnMainThread(title: "Error", message: error.rawValue, buttonText: "Okay")
+			}
+		}
+	}
+	
+	@objc private func authenticate() {
+		bgView = {
+			let view = UIView()
+			view.translatesAutoresizingMaskIntoConstraints = false
+			view.backgroundColor = Colors.customBlue
+			view.alpha = 0
+			return view
+		}()
+		
+		view.addSubview(bgView)
+		bgView.pinToEdges(of: view)
+		
+		UIView.animate(withDuration: 0.25) {
+			self.bgView.alpha = 1
+		}
+		
+		let loginFailedLbl: UILabel = {
+			let lbl = UILabel()
+			lbl.translatesAutoresizingMaskIntoConstraints = false
+			lbl.text = "Login Failed"
+			lbl.textColor = .white
+			lbl.textAlignment = .center
+			lbl.font = UIFont.systemFont(ofSize: 24, weight: .bold)
+			return lbl
+		}()
+		
+		let loginButton: UIButton = {
+			let btn = UIButton()
+			btn.translatesAutoresizingMaskIntoConstraints = false
+			btn.addTarget(self, action: #selector(requestBiometrics), for: .touchUpInside)
+			btn.setTitle("See Profile", for: .normal)
+			btn.setTitleColor(Colors.customBlue, for: .normal)
+			btn.backgroundColor = .white
+			btn.layer.cornerRadius = 10
+			return btn
+		}()
+		
+		bgView.addSubviews(loginFailedLbl, loginButton)
+		
+		NSLayoutConstraint.activate([
+			loginButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+			loginButton.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+			loginButton.heightAnchor.constraint(equalToConstant: 35),
+			loginButton.widthAnchor.constraint(equalToConstant: view.frame.width / 1.5),
+			
+			loginFailedLbl.bottomAnchor.constraint(equalTo: loginButton.topAnchor, constant: -10),
+			loginFailedLbl.leadingAnchor.constraint(equalTo: bgView.leadingAnchor, constant: 10),
+			loginFailedLbl.trailingAnchor.constraint(equalTo: bgView.trailingAnchor, constant: -10),
+			loginFailedLbl.heightAnchor.constraint(equalToConstant: 30)
+		])
+		
+		requestBiometrics()
+	}
+	
+	@objc private func requestBiometrics() {
+		let context = LAContext()
+		var authError: NSError?
+		
+		if context.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: &authError) {
+			context.evaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, localizedReason: "To protect your posts") { (success, error) in
+				DispatchQueue.main.async {
+					if success {
+						UIView.animate(withDuration: 1) {
+							self.bgView.alpha = 0
+						}
+					}
+				}
 			}
 		}
 	}
@@ -139,7 +220,7 @@ extension ProfileVC: UICollectionViewDelegate, UICollectionViewDataSource {
 			cell.alpha = 0.5
 			cell.transform = CGAffineTransform(translationX: 0, y: 30)
 
-			UIView.animate(withDuration: 1, delay: 0, options: .curveEaseOut, animations: {
+			UIView.animate(withDuration: 1, delay: 0, options: [.curveEaseOut, .allowUserInteraction], animations: {
 				cell.alpha = 1
 				cell.transform = CGAffineTransform(translationX: 0, y: 0)
 			})
@@ -150,8 +231,10 @@ extension ProfileVC: UICollectionViewDelegate, UICollectionViewDataSource {
 extension ProfileVC: GADBannerViewDelegate {
 	func adViewDidReceiveAd(_ bannerView: GADBannerView) {
 		self.bannerView.alpha = 0
-		UIView.animate(withDuration: 1) {
-			self.bannerView.alpha = 1
+		if !adFreeUser {
+			UIView.animate(withDuration: 1) {
+				self.bannerView.alpha = 1
+			}
 		}
 	}
 }
